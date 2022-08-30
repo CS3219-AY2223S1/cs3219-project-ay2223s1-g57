@@ -1,4 +1,12 @@
-console.log("hello");
+import express, { Express, Request, Response } from "express";
 
-const item: number = 4;
-console.log(item);
+const app: Express = express();
+const port: number = 8002;
+
+app.get("/", (req: Request, res: Response) => {
+    res.send(`Express + TypeScript Server`);
+});
+
+app.listen(port, () => {
+    console.log(`[question-service] Server is listening on Port ${port}`);
+});
