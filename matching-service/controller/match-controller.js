@@ -6,13 +6,16 @@ export async function createMatch(socket, difficulty) {
     const pendingMatch = await _findPendingMatch(null, difficulty)
 
     if (pendingMatch == null) {
+        // If there are no matches, user joins an empty room and create a pendingMatch
         const roomId = uniqid()
         socket.join(roomId)
         await _createPendingMatch(socket.id, roomId, difficulty)
         return [roomId, false]
     } else if (pendingMatch.user == socket.id) {
+        // Users cannot be matched with themselves
         return [pendingMatch.roomId, false]
     } else {
+        // If a match is found, user joins the room with waiting user and the pendingMatch is removed
         socket.join(pendingMatch.roomId)
         _createMatch(socket.id, pendingMatch.user, pendingMatch.roomId)
         _deletePendingMatch(pendingMatch.user)
