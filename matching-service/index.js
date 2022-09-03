@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { createServer } from 'http';
 import {Server} from 'socket.io'
-import { createMatch, leaveRoom, disconnect } from './controller/match-controller.js';
+import { createMatch, leaveRoom, disconnect, foundMatchWithin30s } from './controller/match-controller.js';
+import { syncBuiltinESMExports } from 'module';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }))
@@ -24,15 +25,25 @@ io.on("connection", (socket) => {
         createMatch(socket, difficulty).then((params) => {
             const roomId = params[0]
             const matchFound = params[1]
+
             if (matchFound) {
                 io.to(roomId).emit("matchSuccess", {
                     roomId: roomId
                 })
-            } else {
-                socket.emit("searching", {
-                    roomId: roomId
-                })
-            }
+                return
+            } 
+    
+            socket.emit("searching", {
+                roomId: roomId
+            })
+            foundMatchWithin30s(socket.id).then((found) => {
+                if (!found) {
+                    socket.leave(roomId)
+                    socket.emit("matchFailed", {
+                        text: "Match not found after 30 seconds"
+                    })
+                }
+            })
         })
     })
 
