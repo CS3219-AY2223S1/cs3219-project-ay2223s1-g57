@@ -39,7 +39,7 @@ io.on("connection", (socket) => {
             foundMatchWithin30s(socket.id).then((found) => {
                 if (!found) {
                     socket.leave(roomId)
-                    socket.emit("matchFailed", {
+                    socket.emit("matchFail", {
                         text: "Match not found after 30 seconds"
                     })
                 }
