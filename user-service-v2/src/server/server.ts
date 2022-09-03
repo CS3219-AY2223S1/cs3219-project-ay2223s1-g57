@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, RequestHandler } from "express";
+import express, { Express, Request, Response } from "express";
 
 const app: Express = express();
 const port: number = 8000;
