@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/server/server.js\"",
+    "dev": "concurrently \"tsc --watch\" \"nodemon -q dist/index.js\"",
     "build": "rimraf ./dist && tsc",
     "predev": "npm run build",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts ."
@@ -17,6 +17,9 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "node": "^16.17.0",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.21.4",
     "typescript": "^4.8.2"
   },
   "devDependencies": {
