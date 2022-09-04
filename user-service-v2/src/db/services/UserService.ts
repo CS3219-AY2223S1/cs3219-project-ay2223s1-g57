@@ -2,13 +2,10 @@ import { UserInput, UserOutput } from "../models/User";
 import { GetAllUsersFilters } from "../repositories/filters";
 import { UserServiceInterface } from "./interfaces/UserServiceInterface";
 import { UserRepositoryInterface } from "../repositories/interfaces/UserRepositoryInterface";
+import { UserRepository } from "../repositories/UserRepository";
 
 export class UserService implements UserServiceInterface {
-  private userRepository: UserRepositoryInterface;
-
-  constructor(_userRepository: UserRepositoryInterface) {
-    this.userRepository = _userRepository;
-  }
+  private userRepository: UserRepositoryInterface = new UserRepository();
 
   create(payload: UserInput): Promise<UserOutput> {
     return this.userRepository.create(payload);
@@ -27,6 +24,6 @@ export class UserService implements UserServiceInterface {
   }
 
   getAll(filters?: GetAllUsersFilters | undefined): Promise<UserOutput[]> {
-    return this.getAll(filters);
+    return this.userRepository.getAll(filters);
   }
 }
