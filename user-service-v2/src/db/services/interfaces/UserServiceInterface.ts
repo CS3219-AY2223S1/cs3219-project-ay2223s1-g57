@@ -1,5 +1,5 @@
-import { UserInput, UserOutput } from "../../../db/models/User";
-import { GetAllUsersFilters } from "../../../db/repositories/filters";
+import { UserInput, UserOutput } from "../../models/User";
+import { GetAllUsersFilters } from "../../repositories/filters";
 
 /**
  * A user service that connects the repository to the controller
