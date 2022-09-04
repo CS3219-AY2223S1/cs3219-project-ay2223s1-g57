@@ -13,7 +13,7 @@ interface UserAttributes {
 
   // timestamps
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt: Date;
   deletedAt?: Date;
 }
 
@@ -33,8 +33,8 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
 
   // timestamps
   public createdAt!: Date;
-  public updatedAt?: Date;
-  public deletedAt?: Date;
+  public updatedAt!: Date;
+  public deletedAt!: Date;
 }
 
 User.init(
@@ -63,6 +63,10 @@ User.init(
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
   },
   {
