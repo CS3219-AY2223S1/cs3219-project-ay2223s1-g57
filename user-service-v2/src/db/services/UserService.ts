@@ -1,7 +1,7 @@
-import { UserInput, UserOutput } from "../../db/models/User";
-import { GetAllUsersFilters } from "../../db/repositories/filters";
+import { UserInput, UserOutput } from "../models/User";
+import { GetAllUsersFilters } from "../repositories/filters";
 import { UserServiceInterface } from "./interfaces/UserServiceInterface";
-import { UserRepositoryInterface } from "../../db/repositories/interfaces/UserRepositoryInterface";
+import { UserRepositoryInterface } from "../repositories/interfaces/UserRepositoryInterface";
 
 export class UserService implements UserServiceInterface {
   private userRepository: UserRepositoryInterface;
