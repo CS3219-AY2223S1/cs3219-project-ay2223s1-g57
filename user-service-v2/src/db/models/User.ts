@@ -10,11 +10,6 @@ interface UserAttributes {
   password: string;
   firstName: string;
   lastName: string;
-
-  // timestamps
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
 }
 
 // Object type passed to Sequelize's model.create
@@ -31,10 +26,7 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public firstName!: string;
   public lastName!: string;
 
-  // timestamps
-  public createdAt!: Date;
-  public updatedAt!: Date;
-  public deletedAt!: Date;
+  // timestamps are automatically added
 }
 
 User.init(
@@ -47,6 +39,7 @@ User.init(
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -59,14 +52,6 @@ User.init(
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: true,
     },
   },
   {

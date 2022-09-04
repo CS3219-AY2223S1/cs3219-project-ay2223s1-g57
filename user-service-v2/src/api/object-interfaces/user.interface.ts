@@ -6,9 +6,4 @@ export interface User {
   password: string;
   firstName: string;
   lastName: string;
-
-  // timestamps
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt?: Date;
 }
