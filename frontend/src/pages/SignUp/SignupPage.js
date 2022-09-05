@@ -33,7 +33,7 @@ const useStyles = makeStyles(() =>
   })
 );
 
-function SignupPage() {
+const SignupPage = () => {
   const classes = useStyles();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -117,6 +117,6 @@ function SignupPage() {
       </Dialog>
     </Box>
   );
-}
+};
 
 export default SignupPage;
