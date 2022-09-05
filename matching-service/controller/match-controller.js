@@ -1,6 +1,8 @@
 import uniqid from 'uniqid'
+import delay from 'delay'
 import { ormCreateMatch as _createMatch, ormFindMatch as _findMatch, ormDeleteMatch as _deleteMatch } from "../model/match-orm.js";
 import { ormCreatePendingMatch as _createPendingMatch, ormFindPendingMatch as _findPendingMatch, ormDeletePendingMatch as _deletePendingMatch } from '../model/pending-match-orm.js';
+
 
 export async function createMatch(socket, difficulty) {
     const pendingMatch = await _findPendingMatch(null, difficulty)
@@ -21,6 +23,16 @@ export async function createMatch(socket, difficulty) {
         _deletePendingMatch(pendingMatch.user)
         return [pendingMatch.roomId, true]
     }   
+}
+
+export async function foundMatchWithin30s(socketId) {
+    await delay(30000)
+    const pendingMatch = await _findPendingMatch(socketId, null)
+    if (pendingMatch) {
+        await _deletePendingMatch(socketId)
+        return false
+    }
+    return true
 }
 
 export async function leaveRoom(socketId) {
