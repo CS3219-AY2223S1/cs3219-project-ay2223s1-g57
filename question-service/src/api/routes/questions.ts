@@ -8,12 +8,14 @@ import {
 
 const questionsRouter = Router();
 
+// Create Question
 questionsRouter.post("/", async (req: Request, res: Response) => {
     const payload: CreateQuestionDTO = req.body;
     const result = await questionController.create(payload);
     return res.status(200).json(result);
 });
 
+// Update Question by id
 questionsRouter.put("/:id", async (req: Request, res: Response) => {
     const id = req.params.id;
     const payload: UpdateQuestionDTO = req.body;
@@ -21,6 +23,7 @@ questionsRouter.put("/:id", async (req: Request, res: Response) => {
     return res.status(201).json(result);
 });
 
+// Delete Question by id
 questionsRouter.delete("/:id", async (req: Request, res: Response) => {
     const id = req.params.id;
     const result = await questionController.deleteById(id);
@@ -30,12 +33,24 @@ questionsRouter.delete("/:id", async (req: Request, res: Response) => {
     });
 });
 
+// Get Question by difficulty
+questionsRouter.get(
+    "/difficulty/:difficulty",
+    async (req: Request, res: Response) => {
+        const difficulty = req.params.difficulty;
+        const result = await questionController.getByDifficulty(difficulty);
+        return res.status(200).json(result);
+    }
+);
+
+// Get Question by id
 questionsRouter.get("/:id", async (req: Request, res: Response) => {
     const id = req.params.id;
     const result = await questionController.getById(id);
     return res.status(200).json(result);
 });
 
+// Get all questions
 questionsRouter.get("/", async (req: Request, res: Response) => {
     const filters: FilterQuestionsDTO = req.query;
     const results = await questionController.getAll(filters);

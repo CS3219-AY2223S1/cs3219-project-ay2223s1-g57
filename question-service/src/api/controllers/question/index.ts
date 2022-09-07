@@ -10,25 +10,32 @@ import * as mapper from "./mapper";
 export const create = async (
     payload: CreateQuestionDTO
 ): Promise<IQuestion> => {
-    const QuestionOutput = await service.create({ ...payload });
-    return mapper.toQuestion(QuestionOutput);
+    const questionOutput = await service.create({ ...payload });
+    return mapper.toQuestion(questionOutput);
 };
 
 export const update = async (
     id: string,
     payload: UpdateQuestionDTO
 ): Promise<IQuestion> => {
-    const QuestionOutput = await service.update(id, { ...payload });
-    return mapper.toQuestion(QuestionOutput);
+    const questionOutput = await service.update(id, { ...payload });
+    return mapper.toQuestion(questionOutput);
 };
 
 export const deleteById = async (id: string): Promise<boolean> => {
     return await service.deleteById(id);
 };
 
+export const getByDifficulty = async (
+    difficulty: string
+): Promise<IQuestion> => {
+    const questionOutput = await service.getByDifficulty(difficulty);
+    return mapper.toQuestion(questionOutput);
+};
+
 export const getById = async (id: string): Promise<IQuestion> => {
-    const QuestionOutput = await service.getById(id);
-    return mapper.toQuestion(QuestionOutput);
+    const questionOutput = await service.getById(id);
+    return mapper.toQuestion(questionOutput);
 };
 
 export const getAll = async (

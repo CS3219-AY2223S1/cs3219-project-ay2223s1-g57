@@ -1,3 +1,4 @@
+import { randomInt } from "crypto";
 import { Question } from "../models";
 import { IQuestionInput, IQuestionOutput } from "../models/Question";
 import { GetAllQuestionsFilters } from "./types";
@@ -29,6 +30,20 @@ export const deleteById = async (id: string): Promise<boolean> => {
     });
 
     return !!deletedQuestionCount;
+};
+
+export const getByDifficulty = async (
+    difficulty: string
+): Promise<IQuestionOutput> => {
+    const questions = await Question.findAll({
+        where: {
+            difficulty: difficulty,
+        },
+    });
+
+    const questions_length = questions.length;
+    const idx = randomInt(questions_length);
+    return questions[idx];
 };
 
 export const getById = async (id: string): Promise<IQuestionOutput> => {

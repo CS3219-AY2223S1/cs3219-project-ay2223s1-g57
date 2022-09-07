@@ -17,6 +17,12 @@ export const deleteById = (id: string): Promise<boolean> => {
     return questionRepository.deleteById(id);
 };
 
+export const getByDifficulty = (
+    difficulty: string
+): Promise<IQuestionOutput> => {
+    return questionRepository.getByDifficulty(difficulty);
+};
+
 export const getById = (id: string): Promise<IQuestionOutput> => {
     return questionRepository.getById(id);
 };
