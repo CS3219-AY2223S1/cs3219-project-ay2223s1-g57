@@ -30,5 +30,14 @@ To be updated
 
 ## Question Service
 
-1. Install npm packages using `npm i`.
-2. Run Question Service using `npm run dev`.
+1. Setup a postgres database on your local machine.
+2. Create a .env file in /backend to store credentials for postgres. Refer to [backend/.env.sample](./question-service/.env.sample) for more info.
+3. Install npm packages using `npm i`.
+4. Run Question Service using `npm run dev`.
+
+**Populating Questions Table**
+
+1. Install `psycopg2` and `python-dotenv` using `pip/pip3`
+2. Ensure that the database is running
+3. Ensure that the table is created. You can either create the table yourself, or run Question Service to create it via Sequelize
+4. Run [database/main.py](question-service/database/main.py) to populate the database. You only need to run this once after the table is created.

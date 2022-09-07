@@ -1,32 +1,50 @@
 import json
+import os
+import psycopg2
+from dotenv import load_dotenv
+from datetime import datetime
 
 
 def main():
-    updated_questions = []
+    load_dotenv()
+
+    DB_USER = str(os.getenv("DB_USER"))
+    DB_NAME = str(os.getenv("DB_NAME"))
+    DB_HOST = str(os.getenv("DB_HOST"))
+    DB_PASSWORD = str(os.getenv("DB_PASSWORD"))
+
+    conn = psycopg2.connect(
+        host=DB_HOST,
+        database=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD)
+
+    cursor = conn.cursor()
 
     with open("questions.json", "r") as f:
         questions = json.load(f)
 
         for question in questions:
-            updated_qn = {}
-            updated_qn["title"] = question["title"]
-            updated_qn["url"] = question["url"]
-            updated_qn["difficulty"] = question["difficulty"]
-            updated_qn["prompt"] = question["prompt"]
-            updated_qn["examples"] = []
+            title = question["title"]
+            url = question["url"]
+            difficulty = question["difficulty"]
+            prompt = question["prompt"]
+            examples = question["examples"]
+            constraints = question["constraints"]
+            related_topics = question["related_topics"]
+            similar_questions = list(
+                map(lambda x: json.dumps(x), question["similar_questions"]))
+            createdAt = updatedAt = datetime.now()
 
-            for example in question["examples"]:
-                updated_example = "\n".join(example)
-                updated_qn["examples"].append(updated_example)
+            cursor.execute("""INSERT INTO "Questions" (id, title, url, difficulty, prompt, examples, constraints, related_topics, similar_questions, "createdAt", "updatedAt") VALUES (DEFAULT, %s, %s, %s, %s, %s, %s, %s, %s::json[], %s, %s)""",
+                           (title, url, difficulty, prompt, examples, constraints, related_topics, similar_questions, createdAt, updatedAt))
 
-            updated_qn["constraints"] = question["constraints"]
-            updated_qn["related_topics"] = question["related_topics"]
-            updated_qn["similar_questions"] = question["similar_questions"]
+    # Persist changes in Postgres
+    conn.commit()
 
-            updated_questions.append(updated_qn)
-
-    with open("questions.json", "w") as f:
-        json.dump(updated_questions, f)
+    cursor.close()
+    conn.close()
+    print(conn)
 
 
 if __name__ == "__main__":
