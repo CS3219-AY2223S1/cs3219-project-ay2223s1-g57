@@ -92,6 +92,12 @@ Question.init(
     {
         sequelize: sequelizeConnection,
         timestamps: true,
+        indexes: [
+            {
+                // Create index based on difficulty
+                fields: ["difficulty"],
+            },
+        ],
     }
 );
 
