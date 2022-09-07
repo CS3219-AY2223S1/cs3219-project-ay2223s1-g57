@@ -5,10 +5,13 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import { createStyles, makeStyles } from "@material-ui/core";
+import { createStyles, makeStyles, Box } from "@material-ui/core";
 
+import { SocketProvider } from "./context/SocketContext";
 import SignupPage from "./pages/SignUp/SignupPage";
-import { Box } from "@material-ui/core";
+import HomePage from "./pages/Home/HomePage";
+import LobbyPage from "./pages/Lobby/LobbyPage";
+import SessionPage from "./pages/Session/SessionPage";
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -20,25 +23,30 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-function App() {
+const App = () => {
   const classes = useStyles();
 
   return (
-    <div className="App">
-      <Box className={classes.rootBox}>
-        <Router>
-          <Routes>
-            <Route
-              exact
-              path="/"
-              element={<Navigate replace to="/signup" />}
-            ></Route>
-            <Route path="/signup" element={<SignupPage />} />
-          </Routes>
-        </Router>
-      </Box>
-    </div>
+    <SocketProvider>
+      <div className="App">
+        <Box className={classes.rootBox}>
+          <Router>
+            <Routes>
+              <Route
+                exact
+                path="/"
+                element={<Navigate replace to="/signup" />}
+              ></Route>
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/lobby" element={<LobbyPage />} />
+              <Route path="/session" element={<SessionPage />} />
+            </Routes>
+          </Router>
+        </Box>
+      </div>
+    </SocketProvider>
   );
-}
+};
 
 export default App;
