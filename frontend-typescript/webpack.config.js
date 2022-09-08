@@ -12,7 +12,8 @@ module.exports = {
     open: true,
     static: {       
       directory: path.resolve(__dirname, './dist')
-    }
+    },
+    historyApiFallback: true
   },
   module: {
     rules: [
