@@ -7,13 +7,13 @@ export const create = (payload: IQuestionInput): Promise<IQuestionOutput> => {
 };
 
 export const update = (
-    id: string,
+    id: number,
     payload: Partial<IQuestionInput>
 ): Promise<IQuestionOutput> => {
     return questionRepository.update(id, payload);
 };
 
-export const deleteById = (id: string): Promise<boolean> => {
+export const deleteById = (id: number): Promise<boolean> => {
     return questionRepository.deleteById(id);
 };
 
@@ -23,7 +23,7 @@ export const getByDifficulty = (
     return questionRepository.getByDifficulty(difficulty);
 };
 
-export const getById = (id: string): Promise<IQuestionOutput> => {
+export const getById = (id: number): Promise<IQuestionOutput> => {
     return questionRepository.getById(id);
 };
 

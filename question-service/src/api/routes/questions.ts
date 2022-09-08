@@ -23,7 +23,7 @@ questionsRouter.post("/", async (req: Request, res: Response) => {
 // Update Question by id
 questionsRouter.put("/:id", async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
+        const id = Number(req.params.id);
         const payload: UpdateQuestionDTO = req.body;
         const result = await questionController.update(id, payload);
         return Util.sendSuccess(res, 200, "Updated Question", result);
@@ -35,7 +35,7 @@ questionsRouter.put("/:id", async (req: Request, res: Response) => {
 // Delete Question by id
 questionsRouter.delete("/:id", async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
+        const id = Number(req.params.id);
         const result = await questionController.deleteById(id);
         return Util.sendSuccess(res, 200, "Deleted Question", result);
     } catch (error: unknown) {
@@ -60,7 +60,7 @@ questionsRouter.get(
 // Get Question by id
 questionsRouter.get("/:id", async (req: Request, res: Response) => {
     try {
-        const id = req.params.id;
+        const id = Number(req.params.id);
         const result = await questionController.getById(id);
         return Util.sendSuccess(res, 200, "Retrieved Question", result);
     } catch (error: unknown) {

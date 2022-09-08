@@ -11,7 +11,7 @@ export const create = async (
 };
 
 export const update = async (
-    id: string,
+    id: number,
     payload: Partial<IQuestionInput>
 ): Promise<IQuestionOutput> => {
     const question = await Question.findByPk(id);
@@ -24,7 +24,7 @@ export const update = async (
     return updatedQuestion;
 };
 
-export const deleteById = async (id: string): Promise<boolean> => {
+export const deleteById = async (id: number): Promise<boolean> => {
     const deletedQuestionCount = await Question.destroy({
         where: { id: id },
     });
@@ -46,7 +46,7 @@ export const getByDifficulty = async (
     return questions[idx];
 };
 
-export const getById = async (id: string): Promise<IQuestionOutput> => {
+export const getById = async (id: number): Promise<IQuestionOutput> => {
     const question = await Question.findByPk(id);
 
     if (!question) {

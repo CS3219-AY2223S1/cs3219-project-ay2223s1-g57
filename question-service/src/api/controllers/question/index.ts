@@ -15,14 +15,14 @@ export const create = async (
 };
 
 export const update = async (
-    id: string,
+    id: number,
     payload: UpdateQuestionDTO
 ): Promise<IQuestion> => {
     const questionOutput = await service.update(id, { ...payload });
     return mapper.toQuestion(questionOutput);
 };
 
-export const deleteById = async (id: string): Promise<boolean> => {
+export const deleteById = async (id: number): Promise<boolean> => {
     return await service.deleteById(id);
 };
 
@@ -33,7 +33,7 @@ export const getByDifficulty = async (
     return mapper.toQuestion(questionOutput);
 };
 
-export const getById = async (id: string): Promise<IQuestion> => {
+export const getById = async (id: number): Promise<IQuestion> => {
     const questionOutput = await service.getById(id);
     return mapper.toQuestion(questionOutput);
 };
