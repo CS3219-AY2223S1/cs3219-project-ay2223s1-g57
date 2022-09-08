@@ -21,7 +21,7 @@ questionsRouter.post("/", async (req: Request, res: Response) => {
 });
 
 // Update Question by id
-questionsRouter.put("/:id", async (req: Request, res: Response) => {
+questionsRouter.patch("/:id", async (req: Request, res: Response) => {
     try {
         const id = Number(req.params.id);
         const payload: UpdateQuestionDTO = req.body;
