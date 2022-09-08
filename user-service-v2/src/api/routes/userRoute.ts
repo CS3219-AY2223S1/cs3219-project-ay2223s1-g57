@@ -17,8 +17,12 @@ userRouter.delete(":/slug", () => {
 
 userRouter.post("/", async (req: Request, res: Response) => {
   const payload: CreateUserDTO = req.body;
-  const result = await userController.create(payload);
-  return res.status(200).send(result);
+  try {
+    await userController.create(payload);
+    return res.status(200).send("user created");
+  } catch (error) {
+    return res.status(409).send("username is already taken");
+  }
 });
 
 export default userRouter;

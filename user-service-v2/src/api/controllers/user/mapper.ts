@@ -6,7 +6,5 @@ export const toUser = (userOutput: UserOutput): User => {
     id: userOutput.id,
     username: userOutput.username,
     password: userOutput.password,
-    firstName: userOutput.firstName,
-    lastName: userOutput.lastName,
   };
 };
