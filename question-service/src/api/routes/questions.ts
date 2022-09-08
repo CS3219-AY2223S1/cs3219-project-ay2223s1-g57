@@ -5,56 +5,78 @@ import {
     FilterQuestionsDTO,
     UpdateQuestionDTO,
 } from "../data_transfer/question.dto";
+import Util from "../util/Util";
 
 const questionsRouter = Router();
 
 // Create Question
 questionsRouter.post("/", async (req: Request, res: Response) => {
-    const payload: CreateQuestionDTO = req.body;
-    const result = await questionController.create(payload);
-    return res.status(200).json(result);
+    try {
+        const payload: CreateQuestionDTO = req.body;
+        const result = await questionController.create(payload);
+        return Util.sendSuccess(res, 201, "Added Question", result);
+    } catch (error: unknown) {
+        return Util.sendFailure(res, 400, error);
+    }
 });
 
 // Update Question by id
 questionsRouter.put("/:id", async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const payload: UpdateQuestionDTO = req.body;
-    const result = await questionController.update(id, payload);
-    return res.status(201).json(result);
+    try {
+        const id = req.params.id;
+        const payload: UpdateQuestionDTO = req.body;
+        const result = await questionController.update(id, payload);
+        return Util.sendSuccess(res, 200, "Updated Question", result);
+    } catch (error: unknown) {
+        return Util.sendFailure(res, 400, error);
+    }
 });
 
 // Delete Question by id
 questionsRouter.delete("/:id", async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const result = await questionController.deleteById(id);
-    console.log(`result ${result}`);
-    return res.status(200).json({
-        success: result,
-    });
+    try {
+        const id = req.params.id;
+        const result = await questionController.deleteById(id);
+        return Util.sendSuccess(res, 200, "Deleted Question", result);
+    } catch (error: unknown) {
+        return Util.sendFailure(res, 400, error);
+    }
 });
 
 // Get Question by difficulty
 questionsRouter.get(
     "/difficulty/:difficulty",
     async (req: Request, res: Response) => {
-        const difficulty = req.params.difficulty;
-        const result = await questionController.getByDifficulty(difficulty);
-        return res.status(200).json(result);
+        try {
+            const difficulty = req.params.difficulty;
+            const result = await questionController.getByDifficulty(difficulty);
+            return Util.sendSuccess(res, 200, "Retrieved Question", result);
+        } catch (error: unknown) {
+            return Util.sendFailure(res, 400, error);
+        }
     }
 );
 
 // Get Question by id
 questionsRouter.get("/:id", async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const result = await questionController.getById(id);
-    return res.status(200).json(result);
+    try {
+        const id = req.params.id;
+        const result = await questionController.getById(id);
+        return Util.sendSuccess(res, 200, "Retrieved Question", result);
+    } catch (error: unknown) {
+        return Util.sendFailure(res, 400, error);
+    }
 });
 
 // Get all questions
 questionsRouter.get("/", async (req: Request, res: Response) => {
-    const filters: FilterQuestionsDTO = req.query;
-    const results = await questionController.getAll(filters);
-    return res.status(200).json(results);
+    try {
+        const filters: FilterQuestionsDTO = req.query;
+        const results = await questionController.getAll(filters);
+        return Util.sendSuccess(res, 200, "Retrieved all Question", results);
+    } catch (error: unknown) {
+        return Util.sendFailure(res, 400, error);
+    }
 });
 
 export default questionsRouter;
