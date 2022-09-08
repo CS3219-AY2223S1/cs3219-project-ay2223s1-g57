@@ -8,8 +8,6 @@ interface UserAttributes {
   // user information
   username: string;
   password: string;
-  firstName: string;
-  lastName: string;
 }
 
 // Object type passed to Sequelize's model.create
@@ -23,8 +21,6 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   public id!: number;
   public username!: string;
   public password!: string;
-  public firstName!: string;
-  public lastName!: string;
 
   // timestamps are automatically added
 }
@@ -42,14 +38,6 @@ User.init(
       unique: true,
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
