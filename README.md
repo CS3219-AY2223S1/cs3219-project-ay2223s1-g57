@@ -26,7 +26,12 @@ Saves all the ports so they don't clash
 
 ## Matching Service
 
-To be updated
+1. Rename `.env.sample` file to `.env`.
+2. Create a Cloud DB URL using Mongo Atlas.
+3. Enter the DB URL created as `DB_CLOUD_URI` in `.env` file.
+4. For production, in the `.env` file change variable `ENV` from `DEV` to `PROD`.
+4. Install npm packages using `npm i`.
+5. Run User Service using `npm run dev`.
 
 ## Question Service
 
