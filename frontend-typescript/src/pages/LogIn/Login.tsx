@@ -13,35 +13,36 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { SetStateAction, useState } from 'react'
 import axios from 'axios'
-import { URL_SIGN_UP } from '../../constants/api'
+import { URL_LOG_IN } from '../../constants/api'
 import {
-  STATUS_CODE_CONFLICT,
-  STATUS_CODE_CREATED,
+  STATUS_CODE_SUCCESS,
+  STATUS_UNAUTHORIZED,
 } from '../../constants/statusCodes'
 import { Link } from 'react-router-dom'
 
 const SignupPage = () => {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [dialogTitle, setDialogTitle] = useState('')
   const [dialogMsg, setDialogMsg] = useState('')
-  const [isSignupSuccess, setIsSignupSuccess] = useState(false)
+  const [isLoginSuccess, setIsLoginSuccess] = useState(false)
 
   const handleSignup = async () => {
-    setIsSignupSuccess(false)
+    setIsLoginSuccess(false)
     const res = await axios
-      .post(URL_SIGN_UP, { username, password })
+      .post(URL_LOG_IN, { username, password })
       .catch((err: { response: { status: any } }) => {
-        if (err.response.status === STATUS_CODE_CONFLICT) {
+        if (err.response.status === STATUS_UNAUTHORIZED) {
           setErrorDialog('This username already exists')
         } else {
           setErrorDialog('Please try again later')
         }
       })
-    if (res && res.status === STATUS_CODE_CREATED) {
+    if (res && res.status === STATUS_CODE_SUCCESS) {
       setSuccessDialog('Account successfully created')
-      setIsSignupSuccess(true)
+      setIsLoginSuccess(true)
     }
   }
 
@@ -104,8 +105,8 @@ const SignupPage = () => {
           <DialogContentText>{dialogMsg}</DialogContentText>
         </DialogContent>
         <DialogActions>
-          {isSignupSuccess ? (
-            <Button component={Link} to="/login">
+          {isLoginSuccess ? (
+            <Button component={Link} to="/home">
               Log in
             </Button>
           ) : (
