@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import { SetStateAction, useState } from 'react'
 import axios from 'axios'
 import { URL_SIGN_UP } from '../../constants/api'

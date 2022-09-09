@@ -7,6 +7,7 @@ import { GetAllUsersFilters } from "../../repositories/filters";
  */
 
 export interface UserServiceInterface {
+  isValidLogin(username: string, password: String): Promise<boolean>;
   checkIfUserExists(username: string): Promise<boolean>;
   create(payload: UserInput): Promise<UserOutput>;
   update(id: number, payload: Partial<UserInput>): Promise<UserOutput>;
