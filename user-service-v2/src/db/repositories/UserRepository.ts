@@ -62,4 +62,17 @@ export class UserRepository implements UserRepositoryInterface {
 
     return user !== null;
   };
+
+  public isValidLogin = async (
+    username: string,
+    password: string,
+  ): Promise<boolean> => {
+    const user = await User.findOne({
+      where: {
+        username: username,
+        password: password,
+      },
+    });
+    return user !== null;
+  };
 }

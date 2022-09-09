@@ -10,7 +10,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import { SetStateAction, useState } from 'react'
 import axios from 'axios'
 import { URL_LOG_IN } from '../../constants/api'
@@ -20,8 +19,7 @@ import {
 } from '../../constants/statusCodes'
 import { Link } from 'react-router-dom'
 
-const SignupPage = () => {
-  const navigate = useNavigate()
+const LoginPage = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -29,19 +27,19 @@ const SignupPage = () => {
   const [dialogMsg, setDialogMsg] = useState('')
   const [isLoginSuccess, setIsLoginSuccess] = useState(false)
 
-  const handleSignup = async () => {
+  const handleLogin = async () => {
     setIsLoginSuccess(false)
     const res = await axios
       .post(URL_LOG_IN, { username, password })
       .catch((err: { response: { status: any } }) => {
         if (err.response.status === STATUS_UNAUTHORIZED) {
-          setErrorDialog('This username already exists')
+          setErrorDialog('Invalid username or password')
         } else {
           setErrorDialog('Please try again later')
         }
       })
     if (res && res.status === STATUS_CODE_SUCCESS) {
-      setSuccessDialog('Account successfully created')
+      setSuccessDialog('Login success!')
       setIsLoginSuccess(true)
     }
   }
@@ -69,7 +67,7 @@ const SignupPage = () => {
       }}
     >
       <Typography variant={'h3'} marginBottom={'2rem'}>
-        Sign Up
+        Login
       </Typography>
       <TextField
         label="Username"
@@ -94,8 +92,12 @@ const SignupPage = () => {
           justifyContent: 'flex-end',
         }}
       >
-        <Button variant={'outlined'} onClick={handleSignup}>
-          Sign up
+        <Button variant={'outlined'} onClick={handleLogin}>
+          Log In
+        </Button>
+
+        <Button variant={'outlined'} component={Link} to="/signup">
+          Sign Up
         </Button>
       </Box>
 
@@ -118,4 +120,4 @@ const SignupPage = () => {
   )
 }
 
-export default SignupPage
+export default LoginPage

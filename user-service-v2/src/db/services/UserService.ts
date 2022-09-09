@@ -30,4 +30,8 @@ export class UserService implements UserServiceInterface {
   checkIfUserExists(username: string): Promise<boolean> {
     return this.userRepository.checkIfUserExists(username);
   }
+
+  isValidLogin(username: string, password: string): Promise<boolean> {
+    return this.userRepository.isValidLogin(username, password);
+  }
 }
