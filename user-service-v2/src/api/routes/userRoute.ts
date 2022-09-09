@@ -1,5 +1,4 @@
 import { Router } from "express";
-import * as userController from "../controllers/user/index";
 const userRouter = Router();
 
 userRouter.get(":/slug", () => {
@@ -13,11 +12,5 @@ userRouter.put(":/slug", () => {
 userRouter.delete(":/slug", () => {
   // delete user
 });
-
-userRouter.post(
-  "/",
-  userController.userDuplicateMiddleware,
-  userController.createUser,
-);
 
 export default userRouter;

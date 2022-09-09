@@ -1,5 +1,8 @@
 const URI_USER_SVC = 'http://localhost:8000'
 
-const PREFIX_USER_SVC = '/api/v1/users'
+const API_VERSION = '/api/v1'
+const SIGN_UP = '/signup'
+const LOG_IN = '/login'
 
-export const URL_USER_SVC = URI_USER_SVC + PREFIX_USER_SVC
+export const URL_SIGN_UP = URI_USER_SVC + SIGN_UP
+export const URL_LOG_IN = URI_USER_SVC + LOG_IN
