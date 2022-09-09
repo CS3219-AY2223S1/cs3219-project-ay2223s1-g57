@@ -9,3 +9,7 @@ const userService: UserServiceInterface = new UserService();
 export const create = async (payload: CreateUserDTO): Promise<User> => {
   return mapper.toUser(await userService.create(payload));
 };
+
+export const checkIfUserExists = async (username: string): Promise<Boolean> => {
+  return userService.checkIfUserExists(username);
+};

@@ -26,4 +26,8 @@ export class UserService implements UserServiceInterface {
   getAll(filters?: GetAllUsersFilters | undefined): Promise<UserOutput[]> {
     return this.userRepository.getAll(filters);
   }
+
+  checkIfUserExists(username: string): Promise<boolean> {
+    return this.userRepository.checkIfUserExists(username);
+  }
 }

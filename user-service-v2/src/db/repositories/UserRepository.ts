@@ -53,4 +53,13 @@ export class UserRepository implements UserRepositoryInterface {
       }),
     });
   };
+  public checkIfUserExists = async (userName: string): Promise<boolean> => {
+    const user = await User.findOne({
+      where: {
+        username: userName,
+      },
+    });
+
+    return user !== null;
+  };
 }
