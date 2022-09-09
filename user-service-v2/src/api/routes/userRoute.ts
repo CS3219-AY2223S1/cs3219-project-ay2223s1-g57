@@ -19,7 +19,7 @@ userRouter.post("/", async (req: Request, res: Response) => {
   const payload: CreateUserDTO = req.body;
   try {
     await userController.create(payload);
-    return res.status(200).send("user created");
+    return res.status(201).send("user created");
   } catch (error) {
     return res.status(409).send("username is already taken");
   }
