@@ -18,6 +18,12 @@ userRouter.delete(":/slug", () => {
 userRouter.post("/", async (req: Request, res: Response) => {
   const payload: CreateUserDTO = req.body;
   try {
+    const isDuplicate = await userController.checkIfUserExists(
+      payload.username,
+    );
+    if (isDuplicate) {
+      return res.status(409).send("username is already taken here");
+    }
     await userController.create(payload);
     return res.status(201).send("user created");
   } catch (error) {
