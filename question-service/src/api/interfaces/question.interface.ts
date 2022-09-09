@@ -1,10 +1,11 @@
 import { ISimilarQuestions } from "../../db/models/Question";
+import { Difficulty } from "../../enums/QuestionEnums";
 
 export interface IQuestion {
     id: number;
     title: string;
     url: string;
-    difficulty: string;
+    difficulty: Difficulty;
     prompt: string;
     examples: string[];
     constraints: string[];

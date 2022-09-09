@@ -1,17 +1,18 @@
 import { DataTypes, Model, Optional } from "sequelize";
+import { Difficulty } from "../../enums/QuestionEnums";
 import sequelizeConnection from "../config";
 
 export interface ISimilarQuestions {
     title: string;
     url: string;
-    difficulty: string;
+    difficulty: Difficulty;
 }
 
 interface IQuestionAttributes {
     id: number;
     title: string;
     url: string;
-    difficulty: string;
+    difficulty: Difficulty;
     prompt: string;
     examples: string[];
     constraints: string[];
@@ -37,7 +38,7 @@ class Question
     public id!: number;
     public title!: string;
     public url!: string;
-    public difficulty!: string;
+    public difficulty!: Difficulty;
     public prompt!: string;
     public examples!: string[];
     public constraints!: string[];
@@ -65,7 +66,11 @@ Question.init(
             allowNull: false,
         },
         difficulty: {
-            type: DataTypes.TEXT("long"),
+            type: DataTypes.ENUM(
+                Difficulty.EASY,
+                Difficulty.MEDIUM,
+                Difficulty.HARD
+            ),
             allowNull: false,
         },
         prompt: {

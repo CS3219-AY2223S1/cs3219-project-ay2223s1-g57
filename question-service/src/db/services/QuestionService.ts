@@ -1,6 +1,7 @@
 import * as questionRepository from "../repository/question";
 import { GetAllQuestionsFilters } from "../repository/types";
 import { IQuestionInput, IQuestionOutput } from "../models/Question";
+import { Difficulty } from "../../enums/QuestionEnums";
 
 export const create = (payload: IQuestionInput): Promise<IQuestionOutput> => {
     return questionRepository.create(payload);
@@ -18,7 +19,7 @@ export const deleteById = (id: number): Promise<boolean> => {
 };
 
 export const getByDifficulty = (
-    difficulty: string
+    difficulty: Difficulty
 ): Promise<IQuestionOutput> => {
     return questionRepository.getByDifficulty(difficulty);
 };

@@ -1,10 +1,11 @@
 import { Optional } from "sequelize";
 import { ISimilarQuestions } from "../../db/models/Question";
+import { Difficulty } from "../../enums/QuestionEnums";
 
 export type CreateQuestionDTO = {
     title: string;
     url: string;
-    difficulty: string;
+    difficulty: Difficulty;
     prompt: string;
     examples: string[];
     constraints: string[];
