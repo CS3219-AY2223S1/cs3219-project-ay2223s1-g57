@@ -1,4 +1,5 @@
 import { randomInt } from "crypto";
+import { Difficulty } from "../../enums/QuestionEnums";
 import { Question } from "../models";
 import { IQuestionInput, IQuestionOutput } from "../models/Question";
 import { GetAllQuestionsFilters } from "./types";
@@ -33,7 +34,7 @@ export const deleteById = async (id: number): Promise<boolean> => {
 };
 
 export const getByDifficulty = async (
-    difficulty: string
+    difficulty: Difficulty
 ): Promise<IQuestionOutput> => {
     const questions = await Question.findAll({
         where: {

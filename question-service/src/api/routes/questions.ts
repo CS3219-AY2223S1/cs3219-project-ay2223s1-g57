@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+import { Difficulty } from "../../enums/QuestionEnums";
 import * as questionController from "../controllers/question";
 import {
     CreateQuestionDTO,
@@ -48,7 +49,9 @@ questionsRouter.get(
     "/difficulty/:difficulty",
     async (req: Request, res: Response) => {
         try {
-            const difficulty = req.params.difficulty;
+            const difficulty: Difficulty = (<any>Difficulty)[
+                req.params.difficulty
+            ];
             const result = await questionController.getByDifficulty(difficulty);
             return Util.sendSuccess(res, 200, "Retrieved Question", result);
         } catch (error: unknown) {

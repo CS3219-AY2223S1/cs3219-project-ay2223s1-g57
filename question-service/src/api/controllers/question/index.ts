@@ -1,4 +1,5 @@
 import * as service from "../../../db/services/QuestionService";
+import { Difficulty } from "../../../enums/QuestionEnums";
 import {
     CreateQuestionDTO,
     FilterQuestionsDTO,
@@ -27,8 +28,18 @@ export const deleteById = async (id: number): Promise<boolean> => {
 };
 
 export const getByDifficulty = async (
-    difficulty: string
+    difficulty: Difficulty
 ): Promise<IQuestion> => {
+    if (difficulty === undefined) {
+        throw Error(
+            `Difficulty must be in [${[
+                Difficulty.EASY,
+                Difficulty.MEDIUM,
+                Difficulty.HARD,
+            ]}]`
+        );
+    }
+
     const questionOutput = await service.getByDifficulty(difficulty);
     return mapper.toQuestion(questionOutput);
 };
