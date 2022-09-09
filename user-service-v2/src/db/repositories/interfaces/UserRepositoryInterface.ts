@@ -6,6 +6,7 @@ import { GetAllUsersFilters } from "../filters";
  */
 
 export interface UserRepositoryInterface {
+  getByUsername(username: string): Promise<UserOutput>;
   isValidLogin(username: string, password: string): Promise<boolean>;
   checkIfUserExists(username: string): Promise<boolean>;
   create(payload: UserInput): Promise<UserOutput>;

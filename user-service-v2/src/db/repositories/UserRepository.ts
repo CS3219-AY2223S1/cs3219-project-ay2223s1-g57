@@ -25,7 +25,18 @@ export class UserRepository implements UserRepositoryInterface {
   public getById = async (id: number): Promise<UserOutput> => {
     const user = await User.findByPk(id);
     if (!user) {
-      // @todo, throw custom error
+      throw new Error("user not found");
+    }
+    return user;
+  };
+
+  public getByUsername = async (username: string): Promise<UserOutput> => {
+    const user = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+    if (!user) {
       throw new Error("user not found");
     }
     return user;

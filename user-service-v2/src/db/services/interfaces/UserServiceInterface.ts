@@ -12,6 +12,7 @@ export interface UserServiceInterface {
   create(payload: UserInput): Promise<UserOutput>;
   update(id: number, payload: Partial<UserInput>): Promise<UserOutput>;
   getById(id: number): Promise<UserOutput>;
+  getByUsername(id: string): Promise<UserOutput>;
   deleteById(id: number): Promise<boolean>;
   getAll(filters?: GetAllUsersFilters): Promise<UserOutput[]>;
 }
