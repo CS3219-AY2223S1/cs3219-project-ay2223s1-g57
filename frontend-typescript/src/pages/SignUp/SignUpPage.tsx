@@ -10,7 +10,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-
+import { useNavigate } from 'react-router-dom'
 import { SetStateAction, useState } from 'react'
 import axios from 'axios'
 import { URL_USER_SVC } from '../../constants/api'
@@ -21,6 +21,7 @@ import {
 import { Link } from 'react-router-dom'
 
 const SignupPage = () => {
+  const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -42,6 +43,7 @@ const SignupPage = () => {
     if (res && res.status === STATUS_CODE_CREATED) {
       setSuccessDialog('Account successfully created')
       setIsSignupSuccess(true)
+      navigate('/home')
     }
   }
 

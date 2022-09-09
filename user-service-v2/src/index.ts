@@ -1,4 +1,6 @@
 import express, { Application, Request, Response } from "express";
+import cors from "cors";
+
 import { port } from "./config";
 import mainRouter from "./api/routes";
 import dbInit from "./db";
@@ -14,6 +16,13 @@ export const get = () => {
     return res.status(200).send(`Express + TypeScript Server`);
   });
 
+  const allowedOrigins = ["http://localhost:3000"];
+  const options: cors.CorsOptions = {
+    origin: allowedOrigins,
+  };
+
+  // Then pass these options to cors:
+  app.use(cors(options));
   app.use("/api/v1", mainRouter);
   return app;
 };
