@@ -19,6 +19,10 @@ export class UserService implements UserServiceInterface {
     return this.userRepository.getById(id);
   }
 
+  getByUsername(username: string): Promise<UserOutput> {
+    return this.userRepository.getByUsername(username);
+  }
+
   deleteById(id: number): Promise<boolean> {
     return this.userRepository.deleteById(id);
   }
