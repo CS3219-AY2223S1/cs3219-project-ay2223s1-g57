@@ -20,6 +20,26 @@ export const createUser = async (
   }
 };
 
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  const username = req.body.username;
+
+  const doesUserExists = await userService.checkIfUserExists(username);
+
+  if (doesUserExists) {
+    try {
+      await userService.deleteByUsername(username);
+      res.status(202).send("user deleted");
+    } catch (error) {
+      res.status(400).send("error in deleting user");
+    }
+  } else {
+    res.status(400).send("user does not exist");
+  }
+};
+
 export const userDuplicateMiddleware = async (
   req: Request,
   res: Response,
@@ -28,7 +48,7 @@ export const userDuplicateMiddleware = async (
   const username: string = req.body.username;
   const isDuplicate = await userService.checkIfUserExists(username);
   if (isDuplicate) {
-    res.status(409).send("username is already taken here");
+    res.status(409).send("username is already taken");
     return;
   }
   next();

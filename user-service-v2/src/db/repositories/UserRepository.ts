@@ -1,6 +1,4 @@
-import { Op } from "sequelize";
 import User, { UserInput, UserOutput } from "../models/User";
-import { GetAllUsersFilters } from "./filters";
 import { UserRepositoryInterface } from "./interfaces/UserRepositoryInterface";
 export class UserRepository implements UserRepositoryInterface {
   public create = async (payload: UserInput): Promise<UserOutput> => {
@@ -42,28 +40,13 @@ export class UserRepository implements UserRepositoryInterface {
     return user;
   };
 
-  public deleteById = async (id: number): Promise<boolean> => {
+  public deleteByUsername = async (username: string): Promise<boolean> => {
     const deletedUserCount = await User.destroy({
-      where: { id },
+      where: { username },
     });
     return !!deletedUserCount;
   };
 
-  public getAll = async (
-    filters?: GetAllUsersFilters,
-  ): Promise<UserOutput[]> => {
-    return User.findAll({
-      where: {
-        ...(filters?.isDeleted && { deletedAt: { [Op.not]: null } }),
-      },
-      // Adding the paranoid: true option to the findAll model method
-      // includes the soft-deleted records with deletedAt set in the result.
-      // Otherwise, the results exclude soft deleted records by default.
-      ...((filters?.isDeleted || filters?.includeDeleted) && {
-        paranoid: true,
-      }),
-    });
-  };
   public checkIfUserExists = async (userName: string): Promise<boolean> => {
     const user = await User.findOne({
       where: {

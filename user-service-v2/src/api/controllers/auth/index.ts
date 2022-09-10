@@ -10,6 +10,14 @@ import { CreateUserDTO } from "../../dto/user.dto";
 
 const userService: UserServiceInterface = new UserService();
 
+// interface UserPayload {
+//   name: string;
+// }
+// interface JwtExpPayload {
+//   expiresIn: string;
+//   exp: number;
+// }
+
 export const hashPasswordMiddleware = async (
   req: Request,
   _: Response,
@@ -29,18 +37,17 @@ export const authenticateMiddleware = async (
 
   // token is undefined or the actual token
   const token = authHeader && authHeader?.split(" ")[1];
-
   if (token == null) {
     res.status(401).send("unauthorized");
     return;
   }
 
-  jwt.verify(token, access_token_secret, (err, user) => {
+  // const currentUser = jwt.decode(token) as { name: string };
+  jwt.verify(token, access_token_secret, (err) => {
     if (err) {
       res.status(403).send("token is no longer valid. please login again");
       return;
     }
-    req.body.username = user;
     next();
   });
 };
@@ -53,9 +60,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     const isMatch = bcrypt.compareSync(password, currentUser.password);
 
     if (isMatch) {
-      const accessToken = jwt.sign({ name: username }, access_token_secret);
-      res.json({ accessToken: accessToken });
-      res.status(200).send("user created");
+      const accessToken = jwt.sign({ name: username }, access_token_secret, {
+        expiresIn: "30s",
+      });
+      res.status(200).json({ accessToken: accessToken });
     } else {
       res.status(401).send("invalid username or password");
     }
