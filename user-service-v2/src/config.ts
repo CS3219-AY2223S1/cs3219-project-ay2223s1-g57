@@ -1,7 +1,10 @@
 import "dotenv/config";
 import { Sequelize } from "sequelize";
+import { Secret } from "jsonwebtoken";
 
 export const DEV_ENV = process.env.NODE_ENV;
+
+export const access_token_secret = process.env.ACCESS_TOKEN_SECRET as Secret;
 
 export const port = Number(process.env.API_PORT);
 export const db_host = String(process.env.DB_HOST);
