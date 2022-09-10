@@ -3,22 +3,19 @@ import { sequelizeConnection } from "../../config";
 
 // User attributes
 interface UserAttributes {
-  id: number;
-
   // user information
   username: string;
   password: string;
 }
 
 // Object type passed to Sequelize's model.create
-export interface UserInput extends Optional<UserAttributes, "id"> {}
+export interface UserInput extends Optional<UserAttributes, "username"> {}
 
 // Object return from model.create, model.update and model.findOne
 export interface UserOutput extends Required<UserAttributes> {}
 
 class User extends Model<UserAttributes, UserInput> implements UserAttributes {
   // user information
-  public id!: number;
   public username!: string;
   public password!: string;
 
@@ -27,15 +24,10 @@ class User extends Model<UserAttributes, UserInput> implements UserAttributes {
 
 User.init(
   {
-    id: {
-      type: DataTypes.INTEGER.UNSIGNED,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     username: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+      primaryKey: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -43,7 +35,7 @@ User.init(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     sequelize: sequelizeConnection,
     // when paranoid is set to true,
     // we do a soft delete on the User when we try to destroy it
