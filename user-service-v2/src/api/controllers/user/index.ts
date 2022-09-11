@@ -24,14 +24,17 @@ export const deleteUser = async (
   req: Request,
   res: Response,
 ): Promise<void> => {
-  const username = req.body.username;
+  // user is decrypted from middleware
+  console.log("deleteUser");
 
-  const doesUserExists = await userService.checkIfUserExists(username);
+  const { user } = req.body;
+
+  const doesUserExists = await userService.checkIfUserExists(user);
 
   if (doesUserExists) {
     try {
-      await userService.deleteByUsername(username);
-      res.status(202).send("user deleted");
+      await userService.deleteByUsername(user);
+      res.status(204).send("user deleted");
     } catch (error) {
       res.status(400).send("error in deleting user");
     }
