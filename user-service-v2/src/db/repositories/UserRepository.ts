@@ -8,10 +8,10 @@ export class UserRepository implements IUserRepository {
   };
 
   public update = async (
-    id: number,
+    username: string,
     payload: Partial<UserInput>,
   ): Promise<UserOutput> => {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(username);
     if (!user) {
       // @todo, throw custom error
       throw new Error("user not found");

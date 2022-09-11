@@ -10,8 +10,8 @@ export class UserService implements IUserService {
     return this.userRepository.create(payload);
   }
 
-  update(id: number, payload: Partial<UserInput>): Promise<UserOutput> {
-    return this.userRepository.update(id, payload);
+  update(username: string, payload: Partial<UserInput>): Promise<UserOutput> {
+    return this.userRepository.update(username, payload);
   }
 
   getById(id: number): Promise<UserOutput> {

@@ -4,9 +4,12 @@ import * as userController from "../controllers/user/index";
 
 const userRouter = Router();
 
-userRouter.get(":/slug", () => {
-  // get user
-});
+userRouter.post(
+  "/change-password",
+  authController.authenticateMiddleware,
+  authController.comparePasswordMiddleware,
+  userController.changePassword,
+);
 
 userRouter.put(":/slug", () => {
   // udpate user
