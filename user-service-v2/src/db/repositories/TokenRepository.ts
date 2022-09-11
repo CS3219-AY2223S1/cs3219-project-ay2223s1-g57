@@ -15,16 +15,4 @@ export class TokenRepository implements ITokenRepository {
     });
     return tokenObj !== null;
   };
-
-  getUsername = async (token: string): Promise<string> => {
-    const tokenObj = await Token.findOne({
-      where: {
-        token: token,
-      },
-    });
-    if (!tokenObj) {
-      throw new Error("token not found");
-    }
-    return tokenObj.username;
-  };
 }

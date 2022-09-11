@@ -5,7 +5,6 @@ import { sequelizeConnection } from "../../config";
 interface TokenAttributes {
   // user information
   token: string;
-  username: string;
 }
 
 // Object type passed to Sequelize's model.create
@@ -18,11 +17,7 @@ class Token
   extends Model<TokenAttributes, TokenInput>
   implements TokenAttributes
 {
-  // user information
   public token!: string;
-  public username!: string;
-
-  // timestamps are automatically added
 }
 
 Token.init(
@@ -31,10 +26,6 @@ Token.init(
       type: DataTypes.STRING,
       allowNull: false,
       primaryKey: true,
-    },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {

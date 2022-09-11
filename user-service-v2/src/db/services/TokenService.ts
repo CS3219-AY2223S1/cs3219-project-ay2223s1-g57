@@ -10,10 +10,6 @@ export class TokenService implements ITokenService {
     return this.tokenRepository.isTokenBlacklisted(token);
   };
 
-  getUsername = async (token: string): Promise<string> => {
-    return this.tokenRepository.getUsername(token);
-  };
-
   create = async (payload: TokenInput): Promise<TokenOutput> => {
     return this.tokenRepository.create(payload);
   };
