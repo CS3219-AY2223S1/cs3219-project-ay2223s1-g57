@@ -2,19 +2,16 @@ import React from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { URL_LOG_OUT } from '../constants/api'
-import { LOG_IN } from '../constants/directory'
+import { LOG_IN, SETTINGS, HOME } from '../constants/directory'
+import { Link } from 'react-router-dom'
 
 import { useAuth } from '../context/AuthContext'
-import {
-  AppBar,
-  Box,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-} from '@mui/material'
+import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material'
 
-const Header = () => {
+type HeaderProps = {
+  enableUserButton: boolean
+}
+const Header = ({ enableUserButton }: HeaderProps) => {
   const navigate = useNavigate()
   const { authHeader, deleteCookie } = useAuth()
   const handleLogout = async () => {
@@ -26,19 +23,22 @@ const Header = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Button color="inherit">Login</Button>
-
           <IconButton
+            component={Link}
+            to={HOME}
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
-          ></IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">User</Button>
+            sx={{ mr: 2, flexGrow: 1 }}
+          >
+            PeerPrep
+          </IconButton>
+          {enableUserButton && (
+            <Button color="inherit" component={Link} to={SETTINGS}>
+              User
+            </Button>
+          )}
           <Button color="inherit" onClick={handleLogout}>
             Logout
           </Button>
