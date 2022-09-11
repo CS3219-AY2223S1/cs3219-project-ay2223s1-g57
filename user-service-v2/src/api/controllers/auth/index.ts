@@ -22,12 +22,34 @@ const tokenService: ITokenService = new TokenService();
 //   exp: number;
 // }
 
+export interface TokenInterface {
+  name: string;
+  iat: number;
+  exp: number;
+}
 export const hashPasswordMiddleware = async (
   req: Request,
   _: Response,
   next: NextFunction,
 ): Promise<void> => {
   req.body.password = await bcrypt.hash(req.body.password, saltRounds);
+  next();
+};
+
+export const comparePasswordMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  const { oldPassword, user } = req.body;
+  const currentUser = await userService.getByUsername(user);
+  const isMatch = bcrypt.compareSync(oldPassword, currentUser.password);
+
+  if (!isMatch) {
+    res.status(400).send("invalid old password");
+    return;
+  }
+  req.body.newPassword = await bcrypt.hash(req.body.newPassword, saltRounds);
   next();
 };
 
@@ -53,11 +75,14 @@ export const authenticateMiddleware = async (
   }
 
   // const currentUser = jwt.decode(token) as { name: string };
-  jwt.verify(token, access_token_secret, (err) => {
+  jwt.verify(token, access_token_secret, (err, user) => {
     if (err) {
       res.status(403).send("token is no longer valid. please login again");
       return;
     }
+    const decoded = user as TokenInterface;
+    console.log("middleware user ", decoded.name);
+    req.body.user = decoded.name as string;
     next();
   });
 };

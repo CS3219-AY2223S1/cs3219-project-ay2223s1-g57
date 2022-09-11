@@ -40,6 +40,25 @@ export const deleteUser = async (
   }
 };
 
+export const changePassword = async (
+  req: Request,
+  res: Response,
+): Promise<void> => {
+  // user is decrypted from middleware
+  // newpassword is encrypted from middleware
+  const { newPassword, user } = req.body;
+  const currentUser = await userService.update(user, {
+    username: user,
+    password: newPassword,
+  });
+
+  if (currentUser) {
+    res.status(200).send("password changed");
+    return;
+  }
+  res.status(400).send("password did not change");
+};
+
 export const userDuplicateMiddleware = async (
   req: Request,
   res: Response,

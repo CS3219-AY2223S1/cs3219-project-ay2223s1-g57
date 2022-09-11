@@ -9,7 +9,7 @@ export interface IUserRepository {
   isValidLogin(username: string, password: string): Promise<boolean>;
   checkIfUserExists(username: string): Promise<boolean>;
   create(payload: UserInput): Promise<UserOutput>;
-  update(id: number, payload: Partial<UserInput>): Promise<UserOutput>;
+  update(username: string, payload: Partial<UserInput>): Promise<UserOutput>;
   getById(id: number): Promise<UserOutput>;
   deleteByUsername(username: string): Promise<boolean>;
 }
