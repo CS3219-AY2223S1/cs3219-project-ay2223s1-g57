@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, SxProps } from '@mui/material'
 import { Routes, Route, Navigate } from 'react-router-dom'
 
-import { SIGN_UP, LOG_IN, HOME } from '../../constants/directory'
+import { SIGN_UP, LOG_IN, HOME, SETTINGS } from '../../constants/directory'
 import { useAuth } from '../../context/AuthContext'
 import NotFound from './NotFound'
 import LoginPage from '../LogIn/LoginPage'
@@ -39,7 +39,8 @@ const App: React.FC = () => {
               <Route path="/" element={<Navigate to={HOME} />} />
               <Route path={LOG_IN} element={<Navigate to={HOME} />} />
               <Route path={SIGN_UP} element={<Navigate to={HOME} />} />
-              <Route path="/home" element={<HomePage />} />
+              <Route path={HOME} element={<HomePage />} />
+              <Route path={SETTINGS} element={<SettingsPage />} />
             </>
           )}
           {!currentCookie && (

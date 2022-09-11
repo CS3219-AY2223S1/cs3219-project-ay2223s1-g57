@@ -7,7 +7,7 @@ import Header from '../../components/Header'
 function HomePage() {
   return (
     <div>
-      <Header />
+      <Header enableUserButton={true} />
       <div>
         <Typography>Choose your difficulty level</Typography>
         {['easy', 'medium', 'hard'].map((difficulty) => (
