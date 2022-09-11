@@ -6,6 +6,5 @@ import { TokenInput, TokenOutput } from "../../models/JWT";
 
 export interface ITokenRepository {
   isTokenBlacklisted(token: string): Promise<boolean>;
-  getUsername(token: string): Promise<string>;
   create(payload: TokenInput): Promise<TokenOutput>;
 }

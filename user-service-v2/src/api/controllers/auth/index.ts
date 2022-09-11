@@ -5,10 +5,14 @@ import { Request, Response, NextFunction } from "express";
 import { access_token_secret } from "../../../config";
 import { saltRounds } from "../../../constants";
 import { IUserService } from "../../../db/services/interfaces/IUserService";
+import { ITokenService } from "../../../db/services/interfaces/ITokenService";
 import { UserService } from "../../../db/services/UserService";
+import { TokenService } from "../../../db/services/TokenService";
+
 import { CreateUserDTO } from "../../dto/user.dto";
 
 const userService: IUserService = new UserService();
+const tokenService: ITokenService = new TokenService();
 
 // interface UserPayload {
 //   name: string;
@@ -42,6 +46,11 @@ export const authenticateMiddleware = async (
     return;
   }
 
+  const isTokenBlacklisted = await tokenService.isTokenBlacklisted(token);
+  if (isTokenBlacklisted) {
+    res.status(401).send("user has already logged out");
+  }
+
   // const currentUser = jwt.decode(token) as { name: string };
   jwt.verify(token, access_token_secret, (err) => {
     if (err) {
@@ -67,6 +76,19 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     } else {
       res.status(401).send("invalid username or password");
     }
+  } catch (error) {
+    res.status(400).send("invalid username or password");
+  }
+};
+
+export const logout = async (req: Request, res: Response): Promise<void> => {
+  const authHeader = req.headers["authorization"];
+  // since authenticateMiddleware executes before this function, there will always be a token
+  const token = authHeader && authHeader?.split(" ")[1];
+
+  try {
+    tokenService.create({ token: token });
+    res.status(200).send("log out successful");
   } catch (error) {
     res.status(400).send("invalid username or password");
   }
