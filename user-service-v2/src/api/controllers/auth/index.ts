@@ -4,11 +4,11 @@ import { Request, Response, NextFunction } from "express";
 
 import { access_token_secret } from "../../../config";
 import { saltRounds } from "../../../constants";
-import { UserServiceInterface } from "../../../db/services/interfaces/UserServiceInterface";
+import { IUserService } from "../../../db/services/interfaces/IUserService";
 import { UserService } from "../../../db/services/UserService";
 import { CreateUserDTO } from "../../dto/user.dto";
 
-const userService: UserServiceInterface = new UserService();
+const userService: IUserService = new UserService();
 
 // interface UserPayload {
 //   name: string;

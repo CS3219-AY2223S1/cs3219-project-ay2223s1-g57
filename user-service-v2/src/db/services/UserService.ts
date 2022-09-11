@@ -1,10 +1,10 @@
 import { UserInput, UserOutput } from "../models/User";
-import { UserServiceInterface } from "./interfaces/UserServiceInterface";
-import { UserRepositoryInterface } from "../repositories/interfaces/UserRepositoryInterface";
+import { IUserService } from "./interfaces/IUserService";
+import { IUserRepository } from "../repositories/interfaces/IUserRepository";
 import { UserRepository } from "../repositories/UserRepository";
 
-export class UserService implements UserServiceInterface {
-  private userRepository: UserRepositoryInterface = new UserRepository();
+export class UserService implements IUserService {
+  private userRepository: IUserRepository = new UserRepository();
 
   create(payload: UserInput): Promise<UserOutput> {
     return this.userRepository.create(payload);

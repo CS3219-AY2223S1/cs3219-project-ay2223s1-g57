@@ -1,6 +1,7 @@
 import User, { UserInput, UserOutput } from "../models/User";
-import { UserRepositoryInterface } from "./interfaces/UserRepositoryInterface";
-export class UserRepository implements UserRepositoryInterface {
+import { IUserRepository } from "./interfaces/IUserRepository";
+
+export class UserRepository implements IUserRepository {
   public create = async (payload: UserInput): Promise<UserOutput> => {
     const user = await User.create(payload);
     return user;
