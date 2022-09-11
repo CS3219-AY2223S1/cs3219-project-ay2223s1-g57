@@ -3,6 +3,7 @@ import Cookies from 'universal-cookie'
 import { JWT_PEERPREP } from '../constants/auth'
 
 interface AuthContext {
+  authHeader: { [headers: string]: { [Authorization: string]: string } }
   currentCookie: string | undefined
   setCookieState: (accessToken: string) => void
   deleteCookie: () => void
@@ -29,9 +30,13 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
     cookieHandler.remove(JWT_PEERPREP)
     setCookie(undefined)
   }
+
+  const authHeader = {
+    headers: { Authorization: `Bearer ${currentCookie}` },
+  }
   return (
     <CurrentAuthContext.Provider
-      value={{ deleteCookie, currentCookie, setCookieState }}
+      value={{ deleteCookie, currentCookie, setCookieState, authHeader }}
     >
       {children}
     </CurrentAuthContext.Provider>

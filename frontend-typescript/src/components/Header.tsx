@@ -16,12 +16,9 @@ import {
 
 const Header = () => {
   const navigate = useNavigate()
-  const { currentCookie, deleteCookie } = useAuth()
+  const { authHeader, deleteCookie } = useAuth()
   const handleLogout = async () => {
-    const auth = {
-      headers: { Authorization: `Bearer ${currentCookie}` },
-    }
-    await axios.post(URL_LOG_OUT, {}, auth)
+    await axios.post(URL_LOG_OUT, {}, authHeader)
     deleteCookie()
     navigate(LOG_IN)
   }
