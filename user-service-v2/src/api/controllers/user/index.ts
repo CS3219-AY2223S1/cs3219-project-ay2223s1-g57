@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 
-import { UserServiceInterface } from "../../../db/services/interfaces/UserServiceInterface";
+import { IUserService } from "../../../db/services/interfaces/IUserService";
 import { UserService } from "../../../db/services/UserService";
 import { CreateUserDTO } from "../../dto/user.dto";
 import * as mapper from "./mapper";
 
-const userService: UserServiceInterface = new UserService();
+const userService: IUserService = new UserService();
 
 export const createUser = async (
   req: Request,
