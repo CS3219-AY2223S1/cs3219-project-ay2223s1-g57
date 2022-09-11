@@ -8,6 +8,7 @@ import NotFound from './NotFound'
 import LoginPage from '../LogIn/LoginPage'
 import SignupPage from '../SignUp/SignUpPage'
 import HomePage from '../Home/HomePage'
+import SettingsPage from '../Settings/SettingsPage'
 
 const classProps: { [className: string]: SxProps } = {
   rootDiv: {
@@ -32,6 +33,7 @@ const App: React.FC = () => {
     <div className="App">
       <Box sx={classProps['rootDiv']}>
         <Routes>
+          <Route path="settings" element={<SettingsPage />} />
           {currentCookie && (
             <>
               <Route path="/" element={<Navigate to={HOME} />} />
