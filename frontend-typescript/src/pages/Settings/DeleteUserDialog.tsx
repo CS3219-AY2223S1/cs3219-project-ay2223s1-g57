@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 import axios from 'axios'
 import {
   Button,
@@ -8,16 +10,16 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Typography,
 } from '@mui/material'
 
-import Header from '../../components/Header'
 import { useAuth } from '../../context/AuthContext'
-import { URL_CHANGE_PASSWORD } from '../../constants/api'
+import { LOG_IN } from '../../constants/directory'
+
+import { URL_DELETE_USER } from '../../constants/api'
 import {
-  STATUS_BAD_REQUEST,
+  // STATUS_CODE_SUCCESSFULLY_UPDATED
   STATUS_UNAUTHORIZED,
-  STATUS_CODE_SUCCESS,
+  STATUS_CODE_SUCCESSFULLY_UPDATED,
 } from '../../constants/statusCodes'
 
 type ChangePasswordDialogProps = {
@@ -28,25 +30,28 @@ export default function ChangePasswordDialog({
   handleClose,
   open,
 }: ChangePasswordDialogProps) {
+  const navigate = useNavigate()
   const { deleteCookie, authHeader } = useAuth()
   const [validationText, setValidationText] = useState('')
   const username = 'peerprepUser'
 
-  // const handleChangePassword = async () => {
-  //   const res = await axios
-  //     .post(URL_CHANGE_PASSWORD, { oldPassword, newPassword }, authHeader)
-  //     .catch((err: { response: { status: any } }) => {
-  //       if (err.response.status === STATUS_UNAUTHORIZED) {
-  //         deleteCookie()
-  //       } else if (err.response.status === STATUS_BAD_REQUEST) {
-  //         setOldPasswordError(true)
-  //       }
-  //     })
-  //   if (res && res.status === STATUS_CODE_SUCCESS) {
-  //     setOldPasswordError(false)
-  //     handleClose()
-  //   }
-  // }
+  const handleDelete = async () => {
+    const res = await axios
+      .delete(URL_DELETE_USER, authHeader)
+      .catch((err: { response: { status: any } }) => {
+        if (err.response.status === STATUS_UNAUTHORIZED) {
+          deleteCookie()
+        }
+        // else if (err.response.status === STATUS_BAD_REQUEST) {
+        // maybe we can put a toast here
+        // }
+      })
+    if (res && res.status === STATUS_CODE_SUCCESSFULLY_UPDATED) {
+      deleteCookie()
+      handleClose()
+      navigate(LOG_IN)
+    }
+  }
 
   return (
     <>
@@ -77,7 +82,7 @@ export default function ChangePasswordDialog({
             <Button onClick={handleClose}>Cancel</Button>
             <Button
               disabled={validationText !== username}
-              // onClick={handleChangePassword}
+              onClick={handleDelete}
             >
               Delete
             </Button>
