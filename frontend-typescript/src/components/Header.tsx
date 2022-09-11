@@ -1,28 +1,53 @@
 import React from 'react'
-import { AppBar, Toolbar, Typography } from '@mui/material'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { URL_LOG_OUT } from '../constants/api'
+import { LOG_IN } from '../constants/directory'
+
+import { useAuth } from '../context/AuthContext'
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from '@mui/material'
 
 const Header = () => {
+  const navigate = useNavigate()
+  const { currentCookie, deleteCookie } = useAuth()
+  const handleLogout = async () => {
+    const auth = {
+      headers: { Authorization: `Bearer ${currentCookie}` },
+    }
+    await axios.post(URL_LOG_OUT, {}, auth)
+    deleteCookie()
+    navigate(LOG_IN)
+  }
   return (
-    <div>
-      <AppBar
-        sx={{
-          background: 'none',
-          boxShadow: 'none',
-        }}
-      >
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
         <Toolbar>
-          <Typography
-            variant={'h1'}
-            sx={{
-              color: '#000000',
-              fontSize: '1.5rem',
-            }}
-          >
-            Peerprep
+          <Button color="inherit">Login</Button>
+
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          ></IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            News
           </Typography>
+          <Button color="inherit">User</Button>
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
-    </div>
+    </Box>
   )
 }
 

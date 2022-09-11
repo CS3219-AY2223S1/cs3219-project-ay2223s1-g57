@@ -49,6 +49,7 @@ export const authenticateMiddleware = async (
   const isTokenBlacklisted = await tokenService.isTokenBlacklisted(token);
   if (isTokenBlacklisted) {
     res.status(401).send("user has already logged out");
+    return;
   }
 
   // const currentUser = jwt.decode(token) as { name: string };
