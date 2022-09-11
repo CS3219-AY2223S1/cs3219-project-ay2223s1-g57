@@ -10,7 +10,6 @@ import {
   DialogTitle,
 } from '@mui/material'
 
-import Header from '../../components/Header'
 import { useAuth } from '../../context/AuthContext'
 import { URL_CHANGE_PASSWORD } from '../../constants/api'
 import {
@@ -52,7 +51,6 @@ export default function ChangePasswordDialog({
 
   return (
     <>
-      <Header enableUserButton={false} />
       <div>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Change Password</DialogTitle>

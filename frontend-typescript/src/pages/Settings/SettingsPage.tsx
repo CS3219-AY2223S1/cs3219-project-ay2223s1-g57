@@ -8,23 +8,40 @@ import {
   Typography,
   Grid,
 } from '@mui/material'
+
+import Header from '../../components/Header'
 import ChangePasswordDialog from './ChangePasswordDialog'
+import DeleteUserDialog from './DeleteUserDialog'
 
 const SettingsPage = () => {
   const [isPasswordDialogActive, setIsPasswordDialogActive] = useState(false)
+  const [isDeleteDialogActive, setIsDeleteDialogActive] = useState(false)
 
-  const handleClickOpen = () => {
+  const handlePasswordDialogClickOpen = () => {
     setIsPasswordDialogActive(true)
   }
 
-  const handleClose = () => {
+  const handleDeleteDialogClickOpen = () => {
+    setIsDeleteDialogActive(true)
+  }
+
+  const handlePasswordDialogClose = () => {
     setIsPasswordDialogActive(false)
+  }
+  const handleDeleteDialogClose = () => {
+    setIsDeleteDialogActive(false)
   }
   return (
     <>
+      <Header enableUserButton={false} />
+
       <ChangePasswordDialog
         open={isPasswordDialogActive}
-        handleClose={handleClose}
+        handleClose={handlePasswordDialogClose}
+      />
+      <DeleteUserDialog
+        open={isDeleteDialogActive}
+        handleClose={handleDeleteDialogClose}
       />
       <Grid sx={{ padding: '15px', alignItems: 'center' }}>
         <Card sx={{ maxWidth: 345, paddingTop: '5px', paddingBottom: '5px' }}>
@@ -42,7 +59,7 @@ const SettingsPage = () => {
 
             <Typography variant="h6">Password</Typography>
 
-            <Button onClick={handleClickOpen} size="small">
+            <Button onClick={handlePasswordDialogClickOpen} size="small">
               Change Password
             </Button>
             <Divider variant="fullWidth" />
@@ -52,7 +69,11 @@ const SettingsPage = () => {
       <Grid sx={{ padding: '15px' }}>
         <Card sx={{ maxWidth: 345, paddingTop: '5px', paddingBottom: '5px' }}>
           <CardContent>
-            <Button sx={{ color: '#ff0000' }} size="small">
+            <Button
+              onClick={handleDeleteDialogClickOpen}
+              sx={{ color: '#ff0000' }}
+              size="small"
+            >
               Delete Account
             </Button>
           </CardContent>
