@@ -34,6 +34,7 @@ export const deleteUser = async (
   if (doesUserExists) {
     try {
       await userService.deleteByUsername(user);
+      // todo: blacklist token
       res.status(204).send("user deleted");
     } catch (error) {
       res.status(400).send("error in deleting user");

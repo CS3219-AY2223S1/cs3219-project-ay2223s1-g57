@@ -78,6 +78,7 @@ export const authenticateMiddleware = async (
   jwt.verify(token, access_token_secret, (err, user) => {
     if (err) {
       res.status(403).send("token is no longer valid. please login again");
+      // add this to the blacklist tokens
       return;
     }
     const decoded = user as TokenInterface;
