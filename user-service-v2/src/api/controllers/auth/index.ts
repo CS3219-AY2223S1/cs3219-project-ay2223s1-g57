@@ -61,7 +61,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     if (isMatch) {
       const accessToken = jwt.sign({ name: username }, access_token_secret, {
-        expiresIn: "30s",
+        expiresIn: "15m",
       });
       res.status(200).json({ accessToken: accessToken });
     } else {

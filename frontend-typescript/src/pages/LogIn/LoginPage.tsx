@@ -18,8 +18,10 @@ import {
   STATUS_UNAUTHORIZED,
 } from '../../constants/statusCodes'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const LoginPage = () => {
+  const { setCookieState } = useAuth()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -39,6 +41,7 @@ const LoginPage = () => {
         }
       })
     if (res && res.status === STATUS_CODE_SUCCESS) {
+      setCookieState(res.data.accessToken)
       setSuccessDialog('Login success!')
       setIsLoginSuccess(true)
     }
