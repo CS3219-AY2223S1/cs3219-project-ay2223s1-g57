@@ -14,7 +14,7 @@ import {
 import { useSocket } from '../../context/SocketContext'
 import Header from '../../components/Header'
 import { DifficultyType } from '../../enums/Difficulty'
-import { CODEPAD } from '../../constants/directory'
+import { HOME, CODEPAD } from '../../constants/directory'
 
 const DialogMessage = Object.freeze({
   NOMATCH: 'Uhoh! No match found!',
@@ -54,7 +54,7 @@ const LobbyPage = () => {
 
         navigate(CODEPAD, {
           state: {
-            matchRoomId: data.roomId,
+            roomId: data.roomId,
             difficulty: difficulty,
           },
         })
@@ -69,6 +69,11 @@ const LobbyPage = () => {
     }
   }, [socket, navigate, difficulty])
 
+  const handleLeaveRoom = () => {
+    socket!.disconnect()
+    setSocket(null)
+  }
+
   const handleTryAgain = () => {
     socket!.emit('match', difficulty)
 
@@ -81,12 +86,12 @@ const LobbyPage = () => {
     socket!.disconnect()
     setSocket(null)
 
-    navigate('/home')
+    navigate(HOME)
   }
 
   return (
     <div>
-      <Header enableUserButton={true} />
+      <Header enableHeaderButtons={false} handleLeaveRoom={handleLeaveRoom} />
 
       <Typography>Matching... </Typography>
 
@@ -99,7 +104,7 @@ const LobbyPage = () => {
           onComplete={() => {
             setTimeout(() => {
               // Give 5sec lag time for server to respond
-              if (serverNoResponse) {
+              if (serverNoResponse.current) {
                 setDialogMsg(DialogMessage.NORESPONSE)
                 setDialogueOpen(true)
               }

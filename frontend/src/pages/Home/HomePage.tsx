@@ -8,7 +8,7 @@ import { Difficulty } from '../../enums/Difficulty'
 const HomePage = () => {
   return (
     <div>
-      <Header enableUserButton={true} />
+      <Header enableHeaderButtons={true} />
       <div>
         <Typography>Choose your difficulty level</Typography>
         {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD].map(

@@ -11,6 +11,7 @@ import {
 import { useSocket } from '../../context/SocketContext'
 import Header from '../../components/Header'
 import { DifficultyType } from '../../enums/Difficulty'
+import { HOME } from '../../constants/directory'
 
 interface LocationState {
   roomId: string
@@ -29,16 +30,21 @@ const CodepadPage = () => {
     })
   }, [socket])
 
+  const handleLeaveRoom = () => {
+    socket!.disconnect()
+    setSocket(null)
+  }
+
   const handleHomeButton = () => {
     socket!.disconnect()
     setSocket(null)
 
-    navigate('/home')
+    navigate(HOME)
   }
 
   return (
     <div>
-      <Header enableUserButton={true} />
+      <Header enableHeaderButtons={false} handleLeaveRoom={handleLeaveRoom} />
       <Typography>Codepad Page</Typography>
       <Typography>Room ID: {roomId}</Typography>
       <Typography>Difficulty: {difficulty}</Typography>
