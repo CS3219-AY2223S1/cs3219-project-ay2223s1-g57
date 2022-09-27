@@ -33,7 +33,7 @@ const SettingsPage = () => {
   }
   return (
     <>
-      <Header enableUserButton={false} />
+      <Header enableHeaderButtons={false} />
 
       <ChangePasswordDialog
         open={isPasswordDialogActive}

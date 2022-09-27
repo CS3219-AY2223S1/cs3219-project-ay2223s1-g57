@@ -9,9 +9,11 @@ import { useAuth } from '../context/AuthContext'
 import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material'
 
 type HeaderProps = {
-  enableUserButton: boolean
+  enableHeaderButtons: boolean
+  handleLeaveRoom?: () => void
 }
-const Header = ({ enableUserButton }: HeaderProps) => {
+
+const Header = ({ enableHeaderButtons, handleLeaveRoom }: HeaderProps) => {
   const navigate = useNavigate()
   const { authHeader, deleteCookie } = useAuth()
   const handleLogout = async () => {
@@ -31,17 +33,20 @@ const Header = ({ enableUserButton }: HeaderProps) => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2, flexGrow: 1 }}
+            onClick={handleLeaveRoom}
           >
             PeerPrep
           </IconButton>
-          {enableUserButton && (
-            <Button color="inherit" component={Link} to={SETTINGS}>
-              User
-            </Button>
+          {enableHeaderButtons && (
+            <div>
+              <Button color="inherit" component={Link} to={SETTINGS}>
+                User
+              </Button>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>
+            </div>
           )}
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
         </Toolbar>
       </AppBar>
     </Box>

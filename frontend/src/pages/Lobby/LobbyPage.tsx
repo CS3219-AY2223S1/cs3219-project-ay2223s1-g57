@@ -14,7 +14,16 @@ import {
 import { useSocket } from '../../context/SocketContext'
 import Header from '../../components/Header'
 import { DifficultyType } from '../../enums/Difficulty'
-import { CODEPAD } from '../../constants/directory'
+import { HOME, CODEPAD } from '../../constants/directory'
+import {
+  initSocket,
+  disconnectSocket,
+  addSocketEventsListeners,
+  removeAllSocketEventsListeners,
+  SocketEvents,
+  findMatch,
+  SocketData,
+} from '../../components/Socket/Socket'
 
 const DialogMessage = Object.freeze({
   NOMATCH: 'Uhoh! No match found!',
@@ -27,66 +36,82 @@ interface LocationState {
 
 const LobbyPage = () => {
   const navigate = useNavigate()
-  const { socket, setSocket } = useSocket()
   const { difficulty } = useLocation().state as LocationState
   const [timerReset, setTimerReset] = useState(false)
   const [dialogueOpen, setDialogueOpen] = useState(false)
   const [dialogMsg, setDialogMsg] = useState(DialogMessage.NOMATCH)
   const serverNoResponse = useRef(true)
 
+  //////////////////////////
+  // SOCKET FUNCTIONS
+  //////////////////////////
+
+  const { socket, setSocket } = useSocket()
+
+  const handleMatchFound = (data: SocketData): void => {
+    console.log(SocketEvents.FOUND_MATCH, data!.roomId)
+
+    removeAllSocketEventsListeners(socket)
+    navigate(CODEPAD, {
+      state: {
+        roomId: data!.roomId,
+        difficulty: difficulty,
+      },
+    })
+  }
+
+  const handleNoMatch = (data: SocketData): void => {
+    console.log(SocketEvents.NO_MATCH, data!.roomId)
+
+    setDialogueOpen(true)
+    serverNoResponse.current = false
+  }
+
   // Connect to socket
   useEffect(() => {
-    setSocket(io.connect('http://localhost:8001'))
+    initSocket(setSocket)
   }, [setSocket])
 
   useEffect(() => {
     if (socket) {
-      // Check connection
-      socket.on('connect', () => {
-        console.log(socket.id)
-      })
+      findMatch(socket, difficulty)
 
-      // Emit match event upon connecting
-      socket.emit('match', difficulty)
-
-      socket.on('matchSuccess', (data) => {
-        console.log('matchSuccess', data.roomId)
-
-        navigate(CODEPAD, {
-          state: {
-            matchRoomId: data.roomId,
-            difficulty: difficulty,
-          },
-        })
-      })
-
-      socket.on('matchFail', (data) => {
-        console.log('matchFail', data.roomId)
-
-        setDialogueOpen(true)
-        serverNoResponse.current = false
-      })
+      addSocketEventsListeners(socket, [
+        {
+          socketEvent: SocketEvents.CONNECT,
+          listener: () => console.log(socket!.id),
+        },
+        {
+          socketEvent: SocketEvents.FOUND_MATCH,
+          listener: handleMatchFound,
+        },
+        {
+          socketEvent: SocketEvents.NO_MATCH,
+          listener: handleNoMatch,
+        },
+      ])
     }
   }, [socket, navigate, difficulty])
 
+  //////////////////////////
+
   const handleTryAgain = () => {
-    socket!.emit('match', difficulty)
-
+    findMatch(socket, difficulty)
     setDialogueOpen(false)
-
     setTimerReset(!timerReset)
   }
 
   const handleGoBack = () => {
-    socket!.disconnect()
-    setSocket(null)
-
-    navigate('/home')
+    disconnectSocket(socket, setSocket)
+    navigate(HOME)
   }
 
   return (
     <div>
-      <Header enableUserButton={true} />
+      <Header
+        enableHeaderButtons={false}
+        handleLeaveRoom={() => disconnectSocket(socket, setSocket)}
+      />
 
       <Typography>Matching... </Typography>
 
@@ -99,7 +124,7 @@ const LobbyPage = () => {
           onComplete={() => {
             setTimeout(() => {
               // Give 5sec lag time for server to respond
-              if (serverNoResponse) {
+              if (serverNoResponse.current) {
                 setDialogMsg(DialogMessage.NORESPONSE)
                 setDialogueOpen(true)
               }

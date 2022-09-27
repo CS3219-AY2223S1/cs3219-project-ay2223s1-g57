@@ -11,6 +11,12 @@ import {
 import { useSocket } from '../../context/SocketContext'
 import Header from '../../components/Header'
 import { DifficultyType } from '../../enums/Difficulty'
+import { HOME } from '../../constants/directory'
+import {
+  disconnectSocket,
+  addSocketEventsListeners,
+  SocketEvents,
+} from '../../components/Socket/Socket'
 
 interface LocationState {
   roomId: string
@@ -24,21 +30,25 @@ const CodepadPage = () => {
   const [dialogueOpen, setDialogueOpen] = useState(false)
 
   useEffect(() => {
-    socket!.on('matchLost', (data) => {
-      setDialogueOpen(true)
-    })
+    addSocketEventsListeners(socket, [
+      {
+        socketEvent: SocketEvents.MATCH_LOST,
+        listener: () => setDialogueOpen(true),
+      },
+    ])
   }, [socket])
 
   const handleHomeButton = () => {
-    socket!.disconnect()
-    setSocket(null)
-
-    navigate('/home')
+    disconnectSocket(socket, setSocket)
+    navigate(HOME)
   }
 
   return (
     <div>
-      <Header enableUserButton={true} />
+      <Header
+        enableHeaderButtons={false}
+        handleLeaveRoom={() => disconnectSocket(socket, setSocket)}
+      />
       <Typography>Codepad Page</Typography>
       <Typography>Room ID: {roomId}</Typography>
       <Typography>Difficulty: {difficulty}</Typography>
