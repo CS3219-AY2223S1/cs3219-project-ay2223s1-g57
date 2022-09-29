@@ -19,6 +19,11 @@ import {
 } from '../../components/Socket/Socket'
 import { useBackListener } from '../../utils/Navigation'
 
+const DialogMessage = Object.freeze({
+  MATCHLEFT: 'Uhoh! Your match left!',
+  DISCONNECT: 'Uhoh! You got disconnected!',
+})
+
 interface LocationState {
   roomId: string
   difficulty: DifficultyType
@@ -28,30 +33,42 @@ const CodepadPage = () => {
   const navigate = useNavigate()
   const { socket, setSocket } = useSocket()
   const { roomId, difficulty } = useLocation().state as LocationState
-  const [matchLeftDialogueOpen, setMatchLeftDialogueOpen] = useState(false)
-  const [disconnectDialogueOpen, setDisconnectDialogueOpen] = useState(false)
+  const [dialogMsg, setDialogMsg] = useState('')
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
+    // for refresh
     if (!socket) {
-      setDisconnectDialogueOpen(true)
+      setDialogMsg(DialogMessage.DISCONNECT)
+      setDialogOpen(true)
       return
     }
 
     addSocketEventsListeners(socket, [
       {
         socketEvent: SocketEvents.MATCH_LOST,
-        listener: () => setMatchLeftDialogueOpen(true),
+        listener: () => {
+          setDialogMsg(DialogMessage.MATCHLEFT)
+          setDialogOpen(true)
+        },
       },
     ])
   }, [socket])
 
+  // for refresh or match left
   const handleHomeButton = () => {
-    disconnectSocket(socket, setSocket)
-    setDisconnectDialogueOpen(true)
+    if (socket) {
+      disconnectSocket(socket, setSocket)
+    }
+
+    // replace so that we cannot navigate back here
+    navigate(HOME, { replace: true })
   }
 
   useBackListener(() => {
     disconnectSocket(socket, setSocket)
+
+    // replace so that we cannot navigate back here
     navigate(HOME, { replace: true })
   })
 
@@ -64,15 +81,9 @@ const CodepadPage = () => {
       <Typography>Codepad Page</Typography>
       <Typography>Room ID: {roomId}</Typography>
       <Typography>Difficulty: {difficulty}</Typography>
-      <Dialog open={matchLeftDialogueOpen}>
-        <DialogTitle>Uhoh! Your match left!</DialogTitle>
+      <Dialog open={dialogOpen}>
+        <DialogTitle>{dialogMsg}</DialogTitle>
         <ListItem button onClick={handleHomeButton}>
-          <ListItemText primary={'Home'} />
-        </ListItem>
-      </Dialog>
-      <Dialog open={disconnectDialogueOpen}>
-        <DialogTitle>Uhoh! You left!</DialogTitle>
-        <ListItem button onClick={() => navigate(HOME)}>
           <ListItemText primary={'Home'} />
         </ListItem>
       </Dialog>
