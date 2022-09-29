@@ -29,13 +29,13 @@ Saves all the ports so they don't clash
 2. Create a Cloud DB URL using Mongo Atlas.
 3. Enter the DB URL created as `DB_CLOUD_URI` in `.env` file.
 4. For production, in the `.env` file change variable `ENV` from `DEV` to `PROD`.
-4. Install npm packages using `npm i`.
-5. Run User Service using `npm run dev`.
+5. Install npm packages using `npm i`.
+6. Run User Service using `npm run dev`.
 
 ## Question Service
 
 1. Setup a postgres database on your local machine.
-2. Create a .env file in /backend to store credentials for postgres. Refer to [backend/.env.sample](./question-service/.env.sample) for more info.
+2. Create a .env file in /question-service to store credentials for postgres. Refer to [question-service/.env.sample](./question-service/.env.sample) for more info.
 3. Install npm packages using `npm i`.
 4. Run Question Service using `npm run dev`.
 
