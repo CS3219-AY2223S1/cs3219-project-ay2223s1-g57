@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { Update } from 'history'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import {
@@ -37,7 +37,14 @@ interface LocationState {
 
 const LobbyPage = () => {
   const navigate = useNavigate()
-  const { difficulty } = useLocation().state as LocationState
+  const location = useLocation()
+
+  // Ensure that we enter lobby page via a valid navigation flow
+  if (!location.state) {
+    return <Navigate to={HOME} />
+  }
+  const { difficulty } = location.state as LocationState
+
   const [timerReset, setTimerReset] = useState(false)
   const [dialogueOpen, setDialogueOpen] = useState(false)
   const [dialogMsg, setDialogMsg] = useState(DialogMessage.NOMATCH)

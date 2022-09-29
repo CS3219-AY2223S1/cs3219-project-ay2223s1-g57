@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import {
   Typography,
   Dialog,
@@ -31,8 +31,15 @@ interface LocationState {
 
 const CodepadPage = () => {
   const navigate = useNavigate()
-  const { socket, setSocket } = useSocket()
+  const location = useLocation()
+
+  // Ensure that we enter lobby page via a valid navigation flow
+  if (!location.state) {
+    return <Navigate to={HOME} />
+  }
   const { roomId, difficulty } = useLocation().state as LocationState
+
+  const { socket, setSocket } = useSocket()
   const [dialogMsg, setDialogMsg] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
 
