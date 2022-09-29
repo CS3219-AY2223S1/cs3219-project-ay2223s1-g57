@@ -35,12 +35,16 @@ interface LocationState {
   difficulty: DifficultyType
 }
 
+const verifyState = (obj: unknown): obj is LocationState => {
+  return typeof obj === 'object' && obj !== null && 'difficulty' in obj
+}
+
 const LobbyPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
   // Ensure that we enter lobby page via a valid navigation flow
-  if (!location.state) {
+  if (!location.state || !verifyState(location.state)) {
     return <Navigate to={HOME} />
   }
   const { difficulty } = location.state as LocationState
