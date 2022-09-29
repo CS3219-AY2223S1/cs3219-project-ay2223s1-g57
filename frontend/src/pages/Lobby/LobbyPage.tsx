@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import * as io from 'socket.io-client'
+import { Update } from 'history'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import {
   Typography,
@@ -24,6 +24,7 @@ import {
   findMatch,
   SocketData,
 } from '../../components/Socket/Socket'
+import { useBackListener } from '../../utils/Navigation'
 
 const DialogMessage = Object.freeze({
   NOMATCH: 'Uhoh! No match found!',
@@ -92,6 +93,12 @@ const LobbyPage = () => {
       ])
     }
   }, [socket, navigate, difficulty])
+
+  // Disconnect socket on back
+  useBackListener(() => {
+    disconnectSocket(socket, setSocket)
+    navigate(HOME, { replace: true })
+  })
 
   //////////////////////////
 
