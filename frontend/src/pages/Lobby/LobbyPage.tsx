@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-import * as io from 'socket.io-client'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
+import { Update } from 'history'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import {
   Typography,
@@ -24,6 +24,7 @@ import {
   findMatch,
   SocketData,
 } from '../../components/Socket/Socket'
+import { useBackListener } from '../../utils/Navigation'
 
 const DialogMessage = Object.freeze({
   NOMATCH: 'Uhoh! No match found!',
@@ -34,9 +35,20 @@ interface LocationState {
   difficulty: DifficultyType
 }
 
+const verifyState = (obj: unknown): obj is LocationState => {
+  return typeof obj === 'object' && obj !== null && 'difficulty' in obj
+}
+
 const LobbyPage = () => {
   const navigate = useNavigate()
-  const { difficulty } = useLocation().state as LocationState
+  const location = useLocation()
+
+  // Ensure that we enter lobby page via a valid navigation flow
+  if (!location.state || !verifyState(location.state)) {
+    return <Navigate to={HOME} />
+  }
+  const { difficulty } = location.state as LocationState
+
   const [timerReset, setTimerReset] = useState(false)
   const [dialogueOpen, setDialogueOpen] = useState(false)
   const [dialogMsg, setDialogMsg] = useState(DialogMessage.NOMATCH)
@@ -92,6 +104,12 @@ const LobbyPage = () => {
       ])
     }
   }, [socket, navigate, difficulty])
+
+  // Disconnect socket on back
+  useBackListener(() => {
+    disconnectSocket(socket, setSocket)
+    navigate(HOME, { replace: true })
+  })
 
   //////////////////////////
 

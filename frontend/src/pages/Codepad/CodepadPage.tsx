@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import {
   Typography,
   Dialog,
@@ -17,31 +17,76 @@ import {
   addSocketEventsListeners,
   SocketEvents,
 } from '../../components/Socket/Socket'
+import { useBackListener } from '../../utils/Navigation'
+
+const DialogMessage = Object.freeze({
+  MATCHLEFT: 'Uhoh! Your match left!',
+  DISCONNECT: 'Uhoh! You got disconnected!',
+})
 
 interface LocationState {
   roomId: string
   difficulty: DifficultyType
 }
 
+const verifyState = (obj: unknown): obj is LocationState => {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    'roomId' in obj &&
+    'difficulty' in obj
+  )
+}
+
 const CodepadPage = () => {
   const navigate = useNavigate()
-  const { socket, setSocket } = useSocket()
+  const location = useLocation()
+
+  // Ensure that we enter codepad page via a valid navigation flow
+  if (!location.state || !verifyState(location.state)) {
+    return <Navigate to={HOME} />
+  }
   const { roomId, difficulty } = useLocation().state as LocationState
-  const [dialogueOpen, setDialogueOpen] = useState(false)
+
+  const { socket, setSocket } = useSocket()
+  const [dialogMsg, setDialogMsg] = useState('')
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
+    // for refresh
+    if (!socket) {
+      setDialogMsg(DialogMessage.DISCONNECT)
+      setDialogOpen(true)
+      return
+    }
+
     addSocketEventsListeners(socket, [
       {
         socketEvent: SocketEvents.MATCH_LOST,
-        listener: () => setDialogueOpen(true),
+        listener: () => {
+          setDialogMsg(DialogMessage.MATCHLEFT)
+          setDialogOpen(true)
+        },
       },
     ])
   }, [socket])
 
+  // for refresh or match left
   const handleHomeButton = () => {
-    disconnectSocket(socket, setSocket)
-    navigate(HOME)
+    if (socket) {
+      disconnectSocket(socket, setSocket)
+    }
+
+    // replace so that we cannot navigate back here
+    navigate(HOME, { replace: true })
   }
+
+  useBackListener(() => {
+    disconnectSocket(socket, setSocket)
+
+    // replace so that we cannot navigate back here
+    navigate(HOME, { replace: true })
+  })
 
   return (
     <div>
@@ -52,8 +97,8 @@ const CodepadPage = () => {
       <Typography>Codepad Page</Typography>
       <Typography>Room ID: {roomId}</Typography>
       <Typography>Difficulty: {difficulty}</Typography>
-      <Dialog open={dialogueOpen}>
-        <DialogTitle>Uhoh! Your match left!</DialogTitle>
+      <Dialog open={dialogOpen}>
+        <DialogTitle>{dialogMsg}</DialogTitle>
         <ListItem button onClick={handleHomeButton}>
           <ListItemText primary={'Home'} />
         </ListItem>
