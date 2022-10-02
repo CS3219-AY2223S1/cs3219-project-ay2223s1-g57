@@ -20,6 +20,26 @@ services:
       - userservicedb
     volumes:
     - ./user-service/src:/usr/src/user-service/src
+  
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - 27017
+
+  matching-service:
+    container_name: matching-service
+    build: ./matching-service
+    ports:
+      - '8001:8001'
+    depends_on:
+      - mongodb
+    environment:
+      - DB_LOCAL_URI=mongodb://mongodb:27017/mydb
+    volumes:
+    - ./matching-service/controller:/usr/src/matching-service/controller
+    - ./matching-service/model:/usr/src/matching-service/model
+    - ./matching-service/index.js:/usr/src/matching-service/index.js
 
   frontend:
     container_name: frontend
@@ -28,6 +48,7 @@ services:
       - '3000:3000'
     depends_on:
       - user-service
+      - matching-service
     volumes:
     - ./frontend/src:/usr/src/frontend/src
 
