@@ -1,4 +1,4 @@
-FROM node
+FROM node:16.17.1-alpine3.15
 
 WORKDIR /usr/src/user-service
 
