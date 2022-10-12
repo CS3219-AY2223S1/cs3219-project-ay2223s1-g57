@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate, Navigate } from 'react-router-dom'
-import { Update } from 'history'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import {
   Typography,
@@ -25,6 +24,7 @@ import {
   SocketData,
 } from '../../components/Socket/Socket'
 import { useBackListener } from '../../utils/Navigation'
+import { useAuth } from '../../context/AuthContext'
 
 const DialogMessage = Object.freeze({
   NOMATCH: 'Uhoh! No match found!',
@@ -40,6 +40,7 @@ const verifyState = (obj: unknown): obj is LocationState => {
 }
 
 const LobbyPage = () => {
+  const { currentUsername } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -85,8 +86,8 @@ const LobbyPage = () => {
   }, [setSocket])
 
   useEffect(() => {
-    if (socket) {
-      findMatch(socket, difficulty)
+    if (socket && !!currentUsername) {
+      findMatch(socket, currentUsername, difficulty)
 
       addSocketEventsListeners(socket, [
         {
@@ -114,7 +115,7 @@ const LobbyPage = () => {
   //////////////////////////
 
   const handleTryAgain = () => {
-    findMatch(socket, difficulty)
+    findMatch(socket, currentUsername!, difficulty)
     setDialogueOpen(false)
     setTimerReset(!timerReset)
   }

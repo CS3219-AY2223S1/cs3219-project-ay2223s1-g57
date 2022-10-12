@@ -5,7 +5,9 @@ import { JWT_PEERPREP } from '../constants/auth'
 interface AuthContext {
   authHeader: { [headers: string]: { [Authorization: string]: string } }
   currentCookie: string | undefined
+  currentUsername: string | undefined
   setCookieState: (accessToken: string) => void
+  setCurrentUsername: React.Dispatch<React.SetStateAction<string | undefined>>
   deleteCookie: () => void
 }
 
@@ -22,6 +24,10 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
   const cookieHandler = new Cookies()
 
   const [currentCookie, setCookie] = useState(cookieHandler.get(JWT_PEERPREP))
+  const [currentUsername, setCurrentUsername] = useState<string | undefined>(
+    undefined,
+  )
+
   const setCookieState = (accessToken: string) => {
     setCookie(accessToken)
     cookieHandler.set(JWT_PEERPREP, accessToken, { path: '/' })
@@ -36,7 +42,14 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
   }
   return (
     <CurrentAuthContext.Provider
-      value={{ deleteCookie, currentCookie, setCookieState, authHeader }}
+      value={{
+        deleteCookie,
+        currentCookie,
+        setCookieState,
+        authHeader,
+        currentUsername,
+        setCurrentUsername,
+      }}
     >
       {children}
     </CurrentAuthContext.Provider>
