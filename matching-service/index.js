@@ -28,14 +28,23 @@ const io = new Server(httpServer, {
   },
 });
 
-io.on("connection", (socket) => {
+io.on("connection", (socket, userId) => {
   console.log("connected " + String(socket.id));
 
-  socket.on("match", (difficulty) => {
-    createMatch(socket, difficulty).then((params) => {
+  socket.on("match", (userId, difficulty) => {
+    createMatch(socket, userId, difficulty).then((params) => {
       const roomId = params[0];
       const matchFound = params[1];
 
+      // User already searching for match (probably in another tab)
+      if (roomId == null) {
+        socket.emit("matchFail", {
+          text: "User is already searching for match or already matched"
+        })
+        return;
+      }
+
+      // Partner found to match
       if (matchFound) {
         io.to(roomId).emit("matchSuccess", {
           roomId: roomId,
@@ -43,10 +52,11 @@ io.on("connection", (socket) => {
         return;
       }
 
+      // Partner not found, waiting 30s for a match
       socket.emit("searching", {
         roomId: roomId,
       });
-      foundMatchWithin30s(socket.id).then((found) => {
+      foundMatchWithin30s(socket.id, userId).then((found) => {
         if (!found) {
           socket.leave(roomId);
           socket.emit("matchFail", {
@@ -57,8 +67,8 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("leaveRoom", (roomId) => {
-    leaveRoom(socket.id, roomId).then(() => {
+  socket.on("leaveRoom", (userId, roomId) => {
+    leaveRoom(socket.id, userId, roomId).then(() => {
       socket.leave(roomId);
       io.to(roomId).emit("matchLost", {
         text: "Partner has left the room",
@@ -77,7 +87,9 @@ io.on("connection", (socket) => {
         io.in(roomId).socketsLeave(roomId);
       }
     });
+
     console.log("disconnected " + String(socket.id));
+    
   });
 });
 
