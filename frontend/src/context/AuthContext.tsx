@@ -24,7 +24,9 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
   const cookieHandler = new Cookies()
 
   const [currentCookie, setCookie] = useState(cookieHandler.get(JWT_PEERPREP))
-  const [currentUsername, setUsername] = useState<string | undefined>(undefined)
+  const [currentUsername, setUsername] = useState(
+    cookieHandler.get(CURRENT_USERNAME),
+  )
 
   const setCookieState = (accessToken: string) => {
     setCookie(accessToken)
