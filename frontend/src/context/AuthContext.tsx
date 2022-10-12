@@ -1,13 +1,13 @@
 import React, { Context, createContext, useContext, useState } from 'react'
 import Cookies from 'universal-cookie'
-import { JWT_PEERPREP } from '../constants/auth'
+import { JWT_PEERPREP, CURRENT_USERNAME } from '../constants/auth'
 
 interface AuthContext {
   authHeader: { [headers: string]: { [Authorization: string]: string } }
   currentCookie: string | undefined
   currentUsername: string | undefined
   setCookieState: (accessToken: string) => void
-  setCurrentUsername: React.Dispatch<React.SetStateAction<string | undefined>>
+  setCurrentUsername: (username: string) => void
   deleteCookie: () => void
 }
 
@@ -24,9 +24,7 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
   const cookieHandler = new Cookies()
 
   const [currentCookie, setCookie] = useState(cookieHandler.get(JWT_PEERPREP))
-  const [currentUsername, setCurrentUsername] = useState<string | undefined>(
-    undefined,
-  )
+  const [currentUsername, setUsername] = useState<string | undefined>(undefined)
 
   const setCookieState = (accessToken: string) => {
     setCookie(accessToken)
@@ -34,7 +32,14 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
   }
   const deleteCookie = () => {
     cookieHandler.remove(JWT_PEERPREP)
+    cookieHandler.remove(CURRENT_USERNAME)
     setCookie(undefined)
+    setUsername(undefined)
+  }
+
+  const setCurrentUsername = (username: string) => {
+    cookieHandler.set(CURRENT_USERNAME, username)
+    setUsername(username)
   }
 
   const authHeader = {
