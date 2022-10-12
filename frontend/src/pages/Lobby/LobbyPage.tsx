@@ -29,6 +29,7 @@ import { useAuth } from '../../context/AuthContext'
 const DialogMessage = Object.freeze({
   NOMATCH: 'Uhoh! No match found!',
   NORESPONSE: 'Uhoh! No response from server!',
+  MATCHALREADY: 'Uhoh! You are already matched or in another lobby.',
 })
 
 interface LocationState {
@@ -53,6 +54,7 @@ const LobbyPage = () => {
   const [timerReset, setTimerReset] = useState(false)
   const [dialogueOpen, setDialogueOpen] = useState(false)
   const [dialogMsg, setDialogMsg] = useState(DialogMessage.NOMATCH)
+  const [timerIsPlaying, setTimerIsPlaying] = useState(true)
   const serverNoResponse = useRef(true)
 
   //////////////////////////
@@ -80,6 +82,12 @@ const LobbyPage = () => {
     serverNoResponse.current = false
   }
 
+  const handleMatchAlready = (_: SocketData): void => {
+    setTimerIsPlaying(false)
+    setDialogMsg(DialogMessage.MATCHALREADY)
+    setDialogueOpen(true)
+  }
+
   // Connect to socket
   useEffect(() => {
     initSocket(setSocket)
@@ -101,6 +109,10 @@ const LobbyPage = () => {
         {
           socketEvent: SocketEvents.NO_MATCH,
           listener: handleNoMatch,
+        },
+        {
+          socketEvent: SocketEvents.MATCH_ALREADY,
+          listener: handleMatchAlready,
         },
       ])
     }
@@ -136,7 +148,7 @@ const LobbyPage = () => {
 
       <div>
         <CountdownCircleTimer
-          isPlaying
+          isPlaying={timerIsPlaying}
           key={timerReset as unknown as React.Key}
           duration={30}
           colors={'#000000'}
@@ -157,9 +169,11 @@ const LobbyPage = () => {
       <Dialog open={dialogueOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>
         <List>
-          <ListItem button onClick={handleTryAgain}>
-            <ListItemText primary={'Try again'} />
-          </ListItem>
+          {dialogMsg !== DialogMessage.MATCHALREADY && (
+            <ListItem button onClick={handleTryAgain}>
+              <ListItemText primary={'Try again'} />
+            </ListItem>
+          )}
 
           <ListItem button onClick={handleGoBack}>
             <ListItemText primary={'Go back'} />

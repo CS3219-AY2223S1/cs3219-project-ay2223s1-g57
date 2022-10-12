@@ -38,7 +38,7 @@ io.on("connection", (socket) => {
 
             // User already searching for match (probably in another tab)
             if (roomId == null) {
-                socket.emit("matchFail", {
+                socket.emit("matchAlready", {
                     text: "User is already searching for match or already matched",
                 });
                 return;

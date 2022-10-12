@@ -37,6 +37,7 @@ export const SocketEvents = Object.freeze({
   FOUND_MATCH: 'matchSuccess',
   NO_MATCH: 'matchFail',
   MATCH_LOST: 'matchLost',
+  MATCH_ALREADY: 'matchAlready',
 })
 
 export type SocketData = {
