@@ -18,6 +18,7 @@ import {
   SocketEvents,
 } from '../../components/Socket/Socket'
 import { useBackListener } from '../../utils/Navigation'
+import { FirepadComponent } from './FirepadComponent'
 
 const DialogMessage = Object.freeze({
   MATCHLEFT: 'Uhoh! Your match left!',
@@ -97,6 +98,7 @@ const CodepadPage = () => {
       <Typography>Codepad Page</Typography>
       <Typography>Room ID: {roomId}</Typography>
       <Typography>Difficulty: {difficulty}</Typography>
+      <FirepadComponent roomId={roomId} />
       <Dialog open={dialogOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>
         <ListItem button onClick={handleHomeButton}>
