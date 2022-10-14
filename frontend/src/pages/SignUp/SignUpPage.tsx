@@ -19,6 +19,9 @@ import {
 } from '../../constants/statusCodes'
 import { Link } from 'react-router-dom'
 
+const ALPHANUMERIC_REGEX = /^[a-zA-Z0-9_]+$/
+const LENGTH_REGEX = /^(\w{8,20})$/
+
 const SignupPage = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -26,6 +29,14 @@ const SignupPage = () => {
   const [dialogTitle, setDialogTitle] = useState('')
   const [dialogMsg, setDialogMsg] = useState('')
   const [isSignupSuccess, setIsSignupSuccess] = useState(false)
+  const [userNameValidation, setUserNameValidation] = useState({
+    error: false,
+    errorMessage: '',
+  })
+  const [passwordValidation, setPasswordValidation] = useState({
+    error: false,
+    errorMessage: '',
+  })
 
   const handleSignup = async () => {
     setIsSignupSuccess(false)
@@ -44,11 +55,51 @@ const SignupPage = () => {
     }
   }
 
+  const onChangeUsername = (newValue: string) => {
+    setUsername(newValue)
+    if (!ALPHANUMERIC_REGEX.test(newValue)) {
+      setUserNameValidation({
+        error: true,
+        errorMessage: 'Only alphanumeric characters are allowed',
+      })
+    } else if (!LENGTH_REGEX.test(newValue)) {
+      setUserNameValidation({
+        error: true,
+        errorMessage: 'Username length should be between 8-20 characters',
+      })
+    } else {
+      setUserNameValidation({
+        error: false,
+        errorMessage: '',
+      })
+    }
+  }
+
+  const onChangePassword = (newValue: string) => {
+    setPassword(newValue)
+    if (!ALPHANUMERIC_REGEX.test(newValue)) {
+      setPasswordValidation({
+        error: true,
+        errorMessage: 'Only alphanumeric characters are allowed',
+      })
+    } else if (!LENGTH_REGEX.test(newValue)) {
+      setPasswordValidation({
+        error: true,
+        errorMessage: 'Password should be between 8-20 characters',
+      })
+    } else {
+      setPasswordValidation({
+        error: false,
+        errorMessage: '',
+      })
+    }
+  }
+
   const closeDialog = () => setIsDialogOpen(false)
 
   const setSuccessDialog = (msg: SetStateAction<string>) => {
     setIsDialogOpen(true)
-    setDialogTitle('Succes')
+    setDialogTitle('Success')
     setDialogMsg(msg)
   }
 
@@ -70,19 +121,23 @@ const SignupPage = () => {
         Sign Up
       </Typography>
       <TextField
+        error={userNameValidation.error}
+        helperText={userNameValidation.errorMessage}
         label="Username"
         variant="standard"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={(e) => onChangeUsername(e.target.value)}
         sx={{ marginBottom: '1rem' }}
         autoFocus
       />
       <TextField
+        error={passwordValidation.error}
+        helperText={passwordValidation.errorMessage}
         label="Password"
         variant="standard"
         type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => onChangePassword(e.target.value)}
         sx={{ marginBottom: '2rem' }}
       />
       <Box
@@ -92,7 +147,16 @@ const SignupPage = () => {
           justifyContent: 'flex-end',
         }}
       >
-        <Button variant={'outlined'} onClick={handleSignup}>
+        <Button
+          disabled={
+            !ALPHANUMERIC_REGEX.test(username) &&
+            !LENGTH_REGEX.test(username) &&
+            !ALPHANUMERIC_REGEX.test(password) &&
+            !LENGTH_REGEX.test(password)
+          }
+          variant={'outlined'}
+          onClick={handleSignup}
+        >
           Sign up
         </Button>
       </Box>
