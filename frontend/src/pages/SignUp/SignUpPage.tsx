@@ -48,7 +48,7 @@ const SignupPage = () => {
 
   const setSuccessDialog = (msg: SetStateAction<string>) => {
     setIsDialogOpen(true)
-    setDialogTitle('Success')
+    setDialogTitle('Succes')
     setDialogMsg(msg)
   }
 
