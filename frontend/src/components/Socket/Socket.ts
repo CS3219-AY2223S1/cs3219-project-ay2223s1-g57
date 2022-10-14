@@ -37,6 +37,7 @@ export const SocketEvents = Object.freeze({
   FOUND_MATCH: 'matchSuccess',
   NO_MATCH: 'matchFail',
   MATCH_LOST: 'matchLost',
+  MATCH_ALREADY: 'matchAlready',
 })
 
 export type SocketData = {
@@ -74,8 +75,9 @@ export const SocketMessages = Object.freeze({
 
 export const findMatch = (
   socket: Socket | null,
+  userId: string,
   difficulty: DifficultyType,
 ): void => {
   checkSocketExist(socket)
-  socket!.emit(SocketMessages.FINDING_MATCH, difficulty)
+  socket!.emit(SocketMessages.FINDING_MATCH, userId, difficulty)
 }

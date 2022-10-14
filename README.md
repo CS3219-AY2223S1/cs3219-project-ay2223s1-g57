@@ -13,10 +13,11 @@ Saves all the ports so they don't clash
 
 ## Frontend
 
-1.  In the frontend directory, create a `dist/` folder
-2.  Copy [index.html](frontend/setup/index.html) from `setup/` into `dist/`
-3.  Install npm packages using `npm i`.
-4.  Run Frontend using `npm run dev`.
+1.  Create a .env file in /frontend to store credentials for postgres. Refer to [frontend/.env.sample](./frontend/.env.sample) for more info.
+2.  In the frontend directory, create a `dist/` folder
+3.  Copy [index.html](frontend/setup/index.html) from `setup/` into `dist/`
+4.  Install npm packages using `npm i`.
+5.  Run Frontend using `npm run dev`.
 
 ## User Service
 
@@ -27,7 +28,7 @@ Saves all the ports so they don't clash
 
 ## Matching Service
 
-1. Create a .env file in /user-service to store credentials for postgres. Refer to [matching-service/.env.sample](./matching-service/.env.sample) for more info.
+1. Create a .env file in /matching-service to store credentials for postgres. Refer to [matching-service/.env.sample](./matching-service/.env.sample) for more info.
 2. Create a Cloud DB URL using Mongo Atlas.
 3. Enter the DB URL created as `DB_CLOUD_URI` in `.env` file.
 4. For production, in the `.env` file change variable `ENV` from `DEV` to `PROD`.

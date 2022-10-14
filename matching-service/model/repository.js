@@ -1,5 +1,6 @@
 import MatchModel from './match-model.js'
 import PendingMatchModel from './pending-match-model.js';
+import UserModel from './user-model.js';
 import 'dotenv/config'
 
 //Set up mongoose connection
@@ -38,4 +39,20 @@ export async function findPendingMatch(user, difficulty) {
 
 export async function deletePendingMatch(user) {
     return PendingMatchModel.deleteOne({user: user})
+}
+
+export async function createUser(params) {
+    return new UserModel(params)
+}
+
+export async function updateUser(socketId, userId) {
+    return UserModel.updateOne({socketId: socketId}, {userId: userId})
+}
+
+export async function findUser(socketId) {
+    return UserModel.findOne({socketId: socketId})
+}
+
+export async function deleteUser(socketId) {
+    return UserModel.deleteOne({socketId: socketId})
 }

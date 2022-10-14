@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useLocation, useNavigate, Navigate } from 'react-router-dom'
-import { Update } from 'history'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import {
   Typography,
@@ -25,10 +24,12 @@ import {
   SocketData,
 } from '../../components/Socket/Socket'
 import { useBackListener } from '../../utils/Navigation'
+import { useAuth } from '../../context/AuthContext'
 
 const DialogMessage = Object.freeze({
   NOMATCH: 'Uhoh! No match found!',
   NORESPONSE: 'Uhoh! No response from server!',
+  MATCHALREADY: 'Uhoh! You are already matched or in another lobby.',
 })
 
 interface LocationState {
@@ -40,6 +41,7 @@ const verifyState = (obj: unknown): obj is LocationState => {
 }
 
 const LobbyPage = () => {
+  const { currentUsername } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -52,6 +54,7 @@ const LobbyPage = () => {
   const [timerReset, setTimerReset] = useState(false)
   const [dialogueOpen, setDialogueOpen] = useState(false)
   const [dialogMsg, setDialogMsg] = useState(DialogMessage.NOMATCH)
+  const [timerIsPlaying, setTimerIsPlaying] = useState(true)
   const serverNoResponse = useRef(true)
 
   //////////////////////////
@@ -79,14 +82,20 @@ const LobbyPage = () => {
     serverNoResponse.current = false
   }
 
+  const handleMatchAlready = (_: SocketData): void => {
+    setTimerIsPlaying(false)
+    setDialogMsg(DialogMessage.MATCHALREADY)
+    setDialogueOpen(true)
+  }
+
   // Connect to socket
   useEffect(() => {
     initSocket(setSocket)
   }, [setSocket])
 
   useEffect(() => {
-    if (socket) {
-      findMatch(socket, difficulty)
+    if (socket && !!currentUsername) {
+      findMatch(socket, currentUsername, difficulty)
 
       addSocketEventsListeners(socket, [
         {
@@ -101,6 +110,10 @@ const LobbyPage = () => {
           socketEvent: SocketEvents.NO_MATCH,
           listener: handleNoMatch,
         },
+        {
+          socketEvent: SocketEvents.MATCH_ALREADY,
+          listener: handleMatchAlready,
+        },
       ])
     }
   }, [socket, navigate, difficulty])
@@ -114,7 +127,7 @@ const LobbyPage = () => {
   //////////////////////////
 
   const handleTryAgain = () => {
-    findMatch(socket, difficulty)
+    findMatch(socket, currentUsername!, difficulty)
     setDialogueOpen(false)
     setTimerReset(!timerReset)
   }
@@ -135,7 +148,7 @@ const LobbyPage = () => {
 
       <div>
         <CountdownCircleTimer
-          isPlaying
+          isPlaying={timerIsPlaying}
           key={timerReset as unknown as React.Key}
           duration={30}
           colors={'#000000'}
@@ -156,9 +169,11 @@ const LobbyPage = () => {
       <Dialog open={dialogueOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>
         <List>
-          <ListItem button onClick={handleTryAgain}>
-            <ListItemText primary={'Try again'} />
-          </ListItem>
+          {dialogMsg !== DialogMessage.MATCHALREADY && (
+            <ListItem button onClick={handleTryAgain}>
+              <ListItemText primary={'Try again'} />
+            </ListItem>
+          )}
 
           <ListItem button onClick={handleGoBack}>
             <ListItemText primary={'Go back'} />
