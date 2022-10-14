@@ -36,7 +36,7 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^0.27.2",
     "codemirror": "^5.17.0",
-    "dotenv": "^16.0.3",
+    "dotenv-webpack": "^8.0.1",
     "firebase": "^7.21.1",
     "firepad": "^1.5.10",
     "react": "^18.2.0",

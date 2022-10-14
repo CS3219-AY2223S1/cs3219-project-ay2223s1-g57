@@ -1,5 +1,3 @@
-import 'dotenv/config'
-
 // ref: https://github.dev/baktiaditya/cother/blob/master/src/components/base/resizeable-grid/cell.tsx
 // Firebase configuration settings
 const FIREBASE_PROJECT_ID = process.env.FIREBASE_PROJECT_ID
