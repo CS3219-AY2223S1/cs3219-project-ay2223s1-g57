@@ -16,7 +16,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 
 const SettingsPage = () => {
-  const { deleteCookie, cookieHandler } = useAuth()
+  const { deleteCookie, cookieHandler, currentUsername } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const SettingsPage = () => {
             <Typography variant="h6">Username</Typography>
 
             <Typography variant="body2" color="text.secondary">
-              UserName
+              {currentUsername}
             </Typography>
             <Divider variant="fullWidth" />
 
