@@ -80,7 +80,14 @@ const LoginPage = () => {
   }
 
   return (
-    <Grid container direction="column">
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minWidth: '100vh', minHeight: '60vh' }}
+    >
       <PeerPrepLogo />
       <Grid item sx={{ paddingTop: '50px' }}>
         <CssTextField
