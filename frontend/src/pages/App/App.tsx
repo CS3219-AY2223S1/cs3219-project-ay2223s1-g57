@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Box, SxProps } from '@mui/material'
+import { Box, Grid, SxProps } from '@mui/material'
 import { Routes, Route, Navigate } from 'react-router-dom'
-
+import PeerPrepLogo from '../../components/PeerPrepLogo'
 import {
   SIGN_UP,
   LOG_IN,
@@ -24,24 +24,24 @@ const classProps: { [className: string]: SxProps } = {
   rootDiv: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '4rem',
   },
 }
 
 const App: React.FC = () => {
   const { cookieHandler } = useAuth()
 
-  // cookies.set('jimeeee', 'hello', { path: '/' })
-  // const cookies2 = new Cookies()
-
-  // cookies2.set('jimeeee', 'brother', )
-  // cookies2.remove('jimeeee')
-
-  // console.log('cookie')
-
   return (
     <SocketProvider>
-      <div className="App">
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: '60vh' }}
+        className="App"
+      >
+        <PeerPrepLogo />
         <Box sx={classProps['rootDiv']}>
           <Routes>
             <Route path="settings" element={<SettingsPage />} />
@@ -66,7 +66,7 @@ const App: React.FC = () => {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Box>
-      </div>
+      </Grid>
     </SocketProvider>
   )
 }
