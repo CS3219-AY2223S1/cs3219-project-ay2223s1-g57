@@ -84,6 +84,7 @@ const PeerPrepLogo = () => {
             fontSize: '48px',
             fontWeight: 'bold',
             color: '#2F2F5A',
+            paddingLeft: '10px',
           }}
         >
           Peerprep

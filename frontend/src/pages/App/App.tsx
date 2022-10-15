@@ -31,15 +31,7 @@ const App: React.FC = () => {
 
   return (
     <SocketProvider>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: '60vh' }}
-        className="App"
-      >
+      <Grid className="App">
         <Box sx={classProps['rootDiv']}>
           <Routes>
             <Route path="settings" element={<SettingsPage />} />
