@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Typography, Button } from '@mui/material'
+import { Link, useNavigate } from 'react-router-dom'
+import { Typography, Grid } from '@mui/material'
 
 import Header from '../../components/Header'
 import { Difficulty } from '../../enums/Difficulty'
 import { useAuth } from '../../context/AuthContext'
+import DifficultyCard from '../../components/DifficultyCard'
 
 const HomePage = () => {
   const { deleteCookie, cookieHandler } = useAuth()
@@ -19,24 +20,49 @@ const HomePage = () => {
   return (
     <div>
       <Header enableHeaderButtons={true} />
-      <div>
-        <Typography>Choose your difficulty level</Typography>
-        {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD].map(
-          (difficulty) => (
-            <Link
-              key={difficulty}
-              to="/lobby"
-              state={{
-                difficulty: difficulty,
-              }}
-            >
-              <Button>
-                <Typography variant="h5">{difficulty}</Typography>
-              </Button>
-            </Link>
-          ),
-        )}
-      </div>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        // justifyContent="center"
+        style={{ paddingTop: '40px', minWidth: '100vh', minHeight: '60vh' }}
+      >
+        <Typography
+          sx={{
+            color: '#2F2F5A',
+            fontWeight: 'bold',
+          }}
+          gutterBottom
+          variant="h5"
+        >
+          Choose your difficulty level
+        </Typography>
+        <Grid
+          sx={{ paddingTop: '40px', justifyContent: 'space-around' }}
+          container
+          spacing={0}
+          direction="row"
+        >
+          {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD].map(
+            (difficulty, idx) => (
+              <Link
+                style={{ textDecoration: 'none' }}
+                key={difficulty}
+                to="/lobby"
+                state={{
+                  difficulty: difficulty,
+                }}
+              >
+                <DifficultyCard
+                  difficulty={difficulty}
+                  starCount={idx + 1}
+                ></DifficultyCard>
+              </Link>
+            ),
+          )}
+        </Grid>
+      </Grid>
     </div>
   )
 }
