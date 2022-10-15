@@ -1,0 +1,81 @@
+version: '3.8'
+services:
+  userservicedb:
+    container_name: userservicedb
+    image: postgres:14.5-alpine
+    ports:
+      - '5433:5432' 
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      
+  user-service:
+    container_name: user-service
+    build: ./user-service
+    ports:
+      - '8000:8000'
+    depends_on:
+      - userservicedb
+    volumes:
+    - ./user-service/src:/usr/src/user-service/src
+  
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - 27018:27017
+
+  matching-service:
+    container_name: matching-service
+    build: ./matching-service
+    ports:
+      - '8001:8001'
+    depends_on:
+      - mongodb
+    environment:
+      - DB_LOCAL_URI=mongodb://mongodb:27017/mydb
+    volumes:
+    - ./matching-service/controller:/usr/src/matching-service/controller
+    - ./matching-service/model:/usr/src/matching-service/model
+    - ./matching-service/index.js:/usr/src/matching-service/index.js
+
+  questionservicedb:
+    container_name: questionservicedb
+    image: postgres:14.5-alpine
+    ports:
+      - '5434:5432' 
+    volumes:
+      - pgdata2:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      
+  question-service:
+    container_name: question-service
+    build: ./question-service
+    ports:
+      - '8002:8002'
+    depends_on:
+      - questionservicedb
+    volumes:
+    - ./question-service/src:/usr/src/question-service/src
+
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - user-service
+      - matching-service
+      - question-service
+    volumes:
+    - ./frontend/src:/usr/src/frontend/src
+
+
+
+volumes:
+  pgdata:
+  pgdata2:

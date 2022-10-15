@@ -5,8 +5,6 @@ import { port } from "./config";
 import mainRouter from "./api/routes";
 import dbInit from "./db";
 
-dbInit();
-
 export const get = () => {
   const app: Application = express();
   // Body parsing Middleware
@@ -42,4 +40,18 @@ export const start = () => {
   }
 };
 
+// let retries = 5;
+
+// while (retries) {
+//   try {
+//     dbInit();
+//     break;
+//   } catch (err) {
+//     console.log(err);
+//     retries -= 1;
+//     console.log(`retries left: ${retries}`);
+//     new Promise((res) => setTimeout(res, 5000));
+//   }
+// }
+dbInit();
 start();

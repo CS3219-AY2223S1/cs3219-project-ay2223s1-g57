@@ -45,6 +45,15 @@ const LobbyPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const { deleteCookie, cookieHandler } = useAuth()
+
+  useEffect(() => {
+    if (!cookieHandler.get('jwt-peerprep')) {
+      deleteCookie()
+      navigate('/')
+    }
+  }, [cookieHandler.get('jwt-peerprep')])
+
   // Ensure that we enter lobby page via a valid navigation flow
   if (!location.state || !verifyState(location.state)) {
     return <Navigate to={HOME} />

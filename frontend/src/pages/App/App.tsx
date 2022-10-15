@@ -30,7 +30,7 @@ const classProps: { [className: string]: SxProps } = {
 }
 
 const App: React.FC = () => {
-  const { currentCookie } = useAuth()
+  const { cookieHandler } = useAuth()
 
   // cookies.set('jimeeee', 'hello', { path: '/' })
   // const cookies2 = new Cookies()
@@ -46,9 +46,9 @@ const App: React.FC = () => {
         <Box sx={classProps['rootDiv']}>
           <Routes>
             <Route path="settings" element={<SettingsPage />} />
-            {currentCookie && (
+            {cookieHandler.get('jwt-peerprep') !== undefined && (
               <>
-                <Route path="/" element={<Navigate to={HOME} />} />
+                <Route path="/" element={<Navigate to={LOG_IN} />} />
                 <Route path={LOG_IN} element={<Navigate to={HOME} />} />
                 <Route path={SIGN_UP} element={<Navigate to={HOME} />} />
                 <Route path={HOME} element={<HomePage />} />
@@ -58,7 +58,7 @@ const App: React.FC = () => {
                 <Route path="/chat" element={<ChatBox />} />
               </>
             )}
-            {!currentCookie && (
+            {cookieHandler.get('jwt-peerprep') === undefined && (
               <>
                 <Route path="/" element={<Navigate to={LOG_IN} />} />
                 <Route path={LOG_IN} element={<LoginPage />} />

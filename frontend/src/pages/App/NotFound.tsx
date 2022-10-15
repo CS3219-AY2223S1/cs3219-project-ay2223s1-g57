@@ -21,7 +21,7 @@ export default function Error() {
               The page you’re looking for doesn’t exist.
             </Typography>
             <Button variant="contained" component={Link} to={LOG_IN}>
-              Back Home
+              Go to Home Page
             </Button>
           </Grid>
           <Grid xs={6}>
