@@ -9,6 +9,7 @@ interface AuthContext {
   setCookieState: (accessToken: string) => void
   setCurrentUsername: (username: string) => void
   deleteCookie: () => void
+  cookieHandler: Cookies
 }
 
 const CurrentAuthContext: Context<AuthContext> = createContext(
@@ -30,7 +31,7 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
 
   const setCookieState = (accessToken: string) => {
     setCookie(accessToken)
-    cookieHandler.set(JWT_PEERPREP, accessToken, { path: '/' })
+    cookieHandler.set(JWT_PEERPREP, accessToken, { path: '/', maxAge: 86400 }) // expires in one day
   }
   const deleteCookie = () => {
     cookieHandler.remove(JWT_PEERPREP)
@@ -56,6 +57,7 @@ export const AuthContext: React.FC<Props> = ({ children }) => {
         authHeader,
         currentUsername,
         setCurrentUsername,
+        cookieHandler,
       }}
     >
       {children}
