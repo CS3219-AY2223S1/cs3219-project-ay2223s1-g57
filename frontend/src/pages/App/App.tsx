@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Grid, SxProps } from '@mui/material'
 import { Routes, Route, Navigate } from 'react-router-dom'
-import PeerPrepLogo from '../../components/PeerPrepLogo'
 import {
   SIGN_UP,
   LOG_IN,
@@ -41,7 +40,6 @@ const App: React.FC = () => {
         style={{ minHeight: '60vh' }}
         className="App"
       >
-        <PeerPrepLogo />
         <Box sx={classProps['rootDiv']}>
           <Routes>
             <Route path="settings" element={<SettingsPage />} />

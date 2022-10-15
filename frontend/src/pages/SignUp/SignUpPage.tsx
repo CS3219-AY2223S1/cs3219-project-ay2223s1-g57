@@ -8,7 +8,7 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-  Typography,
+  Grid,
 } from '@mui/material'
 import { SetStateAction, useState } from 'react'
 import axios from 'axios'
@@ -18,7 +18,22 @@ import {
   STATUS_CODE_CREATED,
 } from '../../constants/statusCodes'
 import { Link } from 'react-router-dom'
+import PeerPrepLogo from '../../components/PeerPrepLogo'
+import CssTextField from '../../components/CssTextField'
 
+const styles = {
+  textField: {
+    width: '455px',
+    backgroundColor: 'white',
+  },
+  button: {
+    width: '455px',
+    backgroundColor: '#E56E52',
+    '&:hover': {
+      backgroundColor: '#2F2F5A',
+    },
+  },
+}
 const ALPHANUMERIC_REGEX = /^[a-zA-Z0-9_]+$/
 const LENGTH_REGEX = /^(\w{8,20})$/
 
@@ -110,56 +125,51 @@ const SignupPage = () => {
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '30%',
-      }}
-    >
-      <Typography variant={'h3'} marginBottom={'2rem'}>
-        Sign Up
-      </Typography>
-      <TextField
-        error={userNameValidation.error}
-        helperText={userNameValidation.errorMessage}
-        label="Username"
-        variant="standard"
-        value={username}
-        onChange={(e) => onChangeUsername(e.target.value)}
-        sx={{ marginBottom: '1rem' }}
-        autoFocus
-      />
-      <TextField
-        error={passwordValidation.error}
-        helperText={passwordValidation.errorMessage}
-        label="Password"
-        variant="standard"
-        type="password"
-        value={password}
-        onChange={(e) => onChangePassword(e.target.value)}
-        sx={{ marginBottom: '2rem' }}
-      />
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        }}
-      >
+    <Grid container direction="column">
+      <PeerPrepLogo />
+      <Grid item sx={{ paddingTop: '50px' }}>
+        <CssTextField
+          error={userNameValidation.error}
+          helperText={userNameValidation.errorMessage}
+          label="Username"
+          variant="outlined"
+          value={username}
+          onChange={(e) => onChangeUsername(e.target.value)}
+          id="custom-css-outlined-input"
+          sx={styles.textField}
+          autoFocus
+        />
+      </Grid>
+
+      <Grid item sx={{ paddingTop: '10px' }}>
+        <CssTextField
+          error={passwordValidation.error}
+          helperText={passwordValidation.errorMessage}
+          label="Password"
+          variant="outlined"
+          type="password"
+          onChange={(e) => onChangePassword(e.target.value)}
+          id="custom-css-outlined-input"
+          sx={styles.textField}
+          autoFocus
+        />
+      </Grid>
+
+      <Grid item sx={{ paddingTop: '30px' }}>
         <Button
           disabled={
-            !ALPHANUMERIC_REGEX.test(username) &&
-            !LENGTH_REGEX.test(username) &&
-            !ALPHANUMERIC_REGEX.test(password) &&
+            !ALPHANUMERIC_REGEX.test(username) ||
+            !LENGTH_REGEX.test(username) ||
+            !ALPHANUMERIC_REGEX.test(password) ||
             !LENGTH_REGEX.test(password)
           }
-          variant={'outlined'}
+          sx={styles.button}
+          variant={'contained'}
           onClick={handleSignup}
         >
           Sign up
         </Button>
-      </Box>
+      </Grid>
 
       <Dialog open={isDialogOpen} onClose={closeDialog}>
         <DialogTitle>{dialogTitle}</DialogTitle>
@@ -176,7 +186,7 @@ const SignupPage = () => {
           )}
         </DialogActions>
       </Dialog>
-    </Box>
+    </Grid>
   )
 }
 
