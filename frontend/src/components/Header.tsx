@@ -20,7 +20,13 @@ const Header = ({ enableHeaderButtons, handleLeaveRoom }: HeaderProps) => {
   const navigate = useNavigate()
   const { authHeader, deleteCookie } = useAuth()
   const handleLogout = async () => {
-    await axios.post(URL_LOG_OUT, {}, authHeader)
+    console.log('here')
+    await axios
+      .post(URL_LOG_OUT, {}, authHeader)
+      .catch((err: { response: { status: any } }) => {
+        console.log(err)
+      })
+
     deleteCookie()
     navigate(LOG_IN)
   }
