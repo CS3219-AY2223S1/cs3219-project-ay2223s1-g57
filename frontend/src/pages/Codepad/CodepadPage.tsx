@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, Navigate } from 'react-router-dom'
-import {
-  Typography,
-  Dialog,
-  DialogTitle,
-  ListItem,
-  ListItemText,
-} from '@mui/material'
+import axios from 'axios'
+import { Dialog, DialogTitle, ListItem, ListItemText } from '@mui/material'
 
 import { useSocket } from '../../context/SocketContext'
 import Header from '../../components/Header'
@@ -19,6 +14,8 @@ import {
 } from '../../components/Socket/Socket'
 import { useBackListener } from '../../utils/Navigation'
 import { FirepadComponent } from './FirepadComponent'
+import { URL_GET_QN } from '../../constants/api'
+import Question, { QuestionInfo } from './Question'
 
 const DialogMessage = Object.freeze({
   MATCHLEFT: 'Uhoh! Your match left!',
@@ -52,6 +49,19 @@ const CodepadPage = () => {
   const { socket, setSocket } = useSocket()
   const [dialogMsg, setDialogMsg] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [question, setQuestion] = useState<QuestionInfo>({} as QuestionInfo)
+
+  useEffect(() => {
+    axios
+      .get(`${URL_GET_QN}/${difficulty}/${roomId}`)
+      .then((res: any) => {
+        console.log(res)
+        setQuestion(res.data.data)
+      })
+      .catch((err: { response: { status: any } }) => {
+        console.log(err.response.status)
+      })
+  }, [])
 
   useEffect(() => {
     // for refresh
@@ -95,9 +105,7 @@ const CodepadPage = () => {
         enableHeaderButtons={false}
         handleLeaveRoom={() => disconnectSocket(socket, setSocket)}
       />
-      <Typography>Codepad Page</Typography>
-      <Typography>Room ID: {roomId}</Typography>
-      <Typography>Difficulty: {difficulty}</Typography>
+      <Question question={question} />
       <FirepadComponent roomId={roomId} />
       <Dialog open={dialogOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>
