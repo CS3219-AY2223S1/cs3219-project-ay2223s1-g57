@@ -7,12 +7,9 @@ import {
   DialogContentText,
   DialogTitle,
   Divider,
-  TextField,
   Grid,
   Typography,
 } from '@mui/material'
-
-import { styled } from '@mui/material/styles'
 
 import { SetStateAction, useState } from 'react'
 import axios from 'axios'
@@ -23,6 +20,8 @@ import {
 } from '../../constants/statusCodes'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import CssTextField from '../../components/CssTextField'
+import PeerPrepLogo from '../../components/PeerPrepLogo'
 
 const styles = {
   textField: {
@@ -37,20 +36,6 @@ const styles = {
     },
   },
 }
-const CssTextField = styled(TextField)({
-  '& label.Mui-focused': {
-    color: '#2F2F5A',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#E56E52',
-      borderWidth: 2,
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#2F2F5A',
-    },
-  },
-})
 
 const LoginPage = () => {
   const { setCookieState, setCurrentUsername } = useAuth()
@@ -96,6 +81,7 @@ const LoginPage = () => {
 
   return (
     <Grid container direction="column">
+      <PeerPrepLogo />
       <Grid item sx={{ paddingTop: '50px' }}>
         <CssTextField
           variant="outlined"
