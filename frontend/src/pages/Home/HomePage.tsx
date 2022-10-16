@@ -39,26 +39,28 @@ const HomePage = () => {
           Choose your difficulty level
         </Typography>
         <Grid
-          sx={{ paddingTop: '40px', justifyContent: 'space-around' }}
+          sx={{
+            paddingTop: '40px',
+            justifyContent: 'space-around',
+            flexDirection: { md: 'row', sm: 'column', xs: 'column' },
+          }}
           container
-          spacing={0}
-          direction="row"
+          spacing={5}
         >
           {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD].map(
             (difficulty, idx) => (
-              <Link
-                style={{ textDecoration: 'none' }}
-                key={difficulty}
-                to="/lobby"
-                state={{
-                  difficulty: difficulty,
-                }}
-              >
-                <DifficultyCard
-                  difficulty={difficulty}
-                  starCount={idx + 1}
-                ></DifficultyCard>
-              </Link>
+              <Grid item key={idx}>
+                <Link
+                  style={{ textDecoration: 'none' }}
+                  key={difficulty}
+                  to="/lobby"
+                  state={{
+                    difficulty: difficulty,
+                  }}
+                >
+                  <DifficultyCard difficulty={difficulty} starCount={idx + 1} />
+                </Link>
+              </Grid>
             ),
           )}
         </Grid>

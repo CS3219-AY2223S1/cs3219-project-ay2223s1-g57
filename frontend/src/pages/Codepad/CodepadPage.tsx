@@ -116,6 +116,7 @@ const CodepadPage = () => {
   return (
     <div>
       <Header
+        enableLeaveRoom={false}
         enableHeaderButtons={false}
         handleLeaveRoom={() => disconnectSocket(socket, setSocket)}
       />

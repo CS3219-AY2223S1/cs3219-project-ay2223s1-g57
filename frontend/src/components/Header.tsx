@@ -12,11 +12,16 @@ import { ButtonBase, Button, Typography, Grid } from '@mui/material'
 import PeerPrepLogoSmall from './PeerPrepLogoSmall'
 
 type HeaderProps = {
+  enableLeaveRoom?: boolean
   enableHeaderButtons: boolean
   handleLeaveRoom?: () => void
 }
 
-const Header = ({ enableHeaderButtons, handleLeaveRoom }: HeaderProps) => {
+const Header = ({
+  enableLeaveRoom = true,
+  enableHeaderButtons,
+  handleLeaveRoom,
+}: HeaderProps) => {
   const navigate = useNavigate()
   const { authHeader, deleteCookie } = useAuth()
   const handleLogout = async () => {
@@ -39,9 +44,13 @@ const Header = ({ enableHeaderButtons, handleLeaveRoom }: HeaderProps) => {
       sx={{ paddingTop: '10px', minWidth: '100vh', minHeight: '10vh' }}
     >
       <Grid sx={{ paddingLeft: '5px' }} item>
-        <ButtonBase component={Link} to={HOME} onClick={handleLeaveRoom}>
+        {enableLeaveRoom ? (
+          <ButtonBase component={Link} to={HOME} onClick={handleLeaveRoom}>
+            <PeerPrepLogoSmall />
+          </ButtonBase>
+        ) : (
           <PeerPrepLogoSmall />
-        </ButtonBase>
+        )}
       </Grid>
       {enableHeaderButtons && (
         <Grid sx={{ paddingRight: '5px' }} item>
