@@ -7,6 +7,8 @@ import {
   Link,
   List,
   ListItem,
+  Chip,
+  Divider,
 } from '@mui/material'
 
 export type QuestionInfo = {
@@ -24,26 +26,58 @@ type QuestionProps = {
   question: QuestionInfo
 }
 
+const getDifficultyTag = (difficulty: string) => {
+  let color: 'success' | 'warning' | 'error' | 'default'
+  switch (difficulty) {
+    case 'easy':
+      color = 'success'
+      break
+    case 'medium':
+      color = 'warning'
+      break
+    case 'hard':
+      color = 'error'
+      break
+    default:
+      color = 'default'
+      break
+  }
+
+  const capitalisedDifficulty = difficulty
+    ? difficulty[0].toUpperCase() + difficulty.substring(1)
+    : difficulty
+  return <Chip label={capitalisedDifficulty} size="small" color={color} />
+}
+
 const Question = ({ question }: QuestionProps) => {
   return (
-    <Card>
+    <Card sx={{ boxShadow: '4', marginY: '1rem' }}>
       <CardContent>
-        <Typography>
-          Title:{' '}
+        <Typography sx={{ mb: '0.25rem' }}>
+          <b>Title: </b>
           <Link href={question.url} underline="always" target="_blank">
             {question.title}
           </Link>
         </Typography>
 
-        <Typography>Difficulty: {question.difficulty}</Typography>
+        <Typography sx={{ mb: '0.25rem' }}>
+          <b>Difficulty: </b>
+          {getDifficultyTag(question.difficulty)}
+        </Typography>
 
-        <Typography>{question.prompt}</Typography>
+        <Divider sx={{ marginY: '0.5rem' }} />
 
-        <Typography>Examples:</Typography>
+        <Typography sx={{ mb: '0.25rem' }}>{question.prompt}</Typography>
+
+        <Divider sx={{ marginY: '0.5rem' }} />
+
+        <Typography sx={{ fontWeight: 'bold', mb: '0.25rem' }}>
+          Examples:
+        </Typography>
         <List
           disablePadding={true}
           dense={true}
-          sx={{ listStyleType: 'disc', pl: 4 }}
+          sx={{ listStyleType: 'disc', pl: 4, mb: '0.25rem' }}
         >
           {question.examples &&
             question.examples.map((x, idx) => {
@@ -55,11 +89,13 @@ const Question = ({ question }: QuestionProps) => {
             })}
         </List>
 
-        <Typography>Constraints:</Typography>
+        <Typography sx={{ fontWeight: 'bold', mb: '0.25rem' }}>
+          Constraints:
+        </Typography>
         <List
           disablePadding={true}
           dense={true}
-          sx={{ listStyleType: 'disc', pl: 4 }}
+          sx={{ listStyleType: 'disc', pl: 4, mb: '0.25rem' }}
         >
           {question.constraints &&
             question.constraints.map((x, idx) => (
@@ -69,9 +105,20 @@ const Question = ({ question }: QuestionProps) => {
             ))}
         </List>
 
-        <Typography>Related Topics:</Typography>
+        <Typography sx={{ fontWeight: 'bold' }}>Related Topics:</Typography>
         <Typography>
-          {question.related_topics && question.related_topics.join(', ')}
+          {question.related_topics
+            ? question.related_topics.map((topic) => {
+                return (
+                  <Chip
+                    label={topic}
+                    size="small"
+                    color="primary"
+                    sx={{ marginX: '0.25rem' }}
+                  />
+                )
+              })
+            : 'None'}
         </Typography>
       </CardContent>
     </Card>

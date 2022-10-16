@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, Navigate } from 'react-router-dom'
 import axios from 'axios'
-import { Dialog, DialogTitle, ListItem, ListItemText } from '@mui/material'
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  Grid,
+  ListItem,
+  ListItemText,
+} from '@mui/material'
 
 import { useSocket } from '../../context/SocketContext'
 import Header from '../../components/Header'
@@ -20,6 +27,7 @@ import Question, { QuestionInfo } from './Question'
 const DialogMessage = Object.freeze({
   MATCHLEFT: 'Uhoh! Your match left!',
   DISCONNECT: 'Uhoh! You got disconnected!',
+  LEAVEROOM: 'Are you sure you want to leave?',
 })
 
 interface LocationState {
@@ -99,16 +107,33 @@ const CodepadPage = () => {
     navigate(HOME, { replace: true })
   })
 
+  // home button
+  const handleLeaveRoom = () => {
+    setDialogMsg(DialogMessage.LEAVEROOM)
+    setDialogOpen(true)
+  }
+
   return (
     <div>
       <Header
         enableHeaderButtons={false}
         handleLeaveRoom={() => disconnectSocket(socket, setSocket)}
       />
+      <Grid container direction="row" justifyContent="flex-end">
+        <Grid item>
+          <Button onClick={handleLeaveRoom}>Leave Session</Button>
+        </Grid>
+      </Grid>
+
       <Question question={question} />
       <FirepadComponent roomId={roomId} />
       <Dialog open={dialogOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>
+        {dialogMsg === DialogMessage.LEAVEROOM && (
+          <ListItem button onClick={() => setDialogOpen(false)}>
+            <ListItemText primary={'Cancel'} />
+          </ListItem>
+        )}
         <ListItem button onClick={handleHomeButton}>
           <ListItemText primary={'Home'} />
         </ListItem>
