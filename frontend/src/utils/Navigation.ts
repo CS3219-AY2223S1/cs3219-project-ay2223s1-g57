@@ -13,10 +13,13 @@ export const useBackListener = (callback: (...args: any) => void) => {
       }
     }
 
-    let unlisten
-    try {
-      unlisten = navigator.listen(listener)
-    } catch (err) {}
-    return unlisten
+    return navigator.listen(listener)
+
+    // // if something explodes, try this
+    // let unlisten
+    // try {
+    //   unlisten = navigator.listen(listener)
+    // } catch (err) {}
+    // return unlisten
   }, [callback, navigator])
 }
