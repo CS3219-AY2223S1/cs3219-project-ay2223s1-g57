@@ -47,8 +47,12 @@ const DifficultyCard = ({ difficulty, starCount }: DifficultyCardProps) => {
             <Box width="100%" />
             <Grid item>
               <ArrowBackIosIcon sx={{ color: '#E56E52' }} fontSize="large" />
-              {[...Array(starCount)].map((num) => (
-                <StarIcon sx={{ color: '#E56E52' }} fontSize="large" />
+              {[...Array(starCount)].map((num, idx) => (
+                <StarIcon
+                  key={idx}
+                  sx={{ color: '#E56E52' }}
+                  fontSize="large"
+                />
               ))}
               <ArrowForwardIosIcon sx={{ color: '#E56E52' }} fontSize="large" />
             </Grid>

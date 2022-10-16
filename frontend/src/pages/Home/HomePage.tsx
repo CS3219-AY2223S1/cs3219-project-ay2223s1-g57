@@ -49,7 +49,7 @@ const HomePage = () => {
         >
           {[Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD].map(
             (difficulty, idx) => (
-              <Grid item>
+              <Grid item key={idx}>
                 <Link
                   style={{ textDecoration: 'none' }}
                   key={difficulty}
