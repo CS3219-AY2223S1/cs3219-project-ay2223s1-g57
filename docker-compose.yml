@@ -62,6 +62,14 @@ services:
     volumes:
     - ./question-service/src:/usr/src/question-service/src
 
+  chat-service:
+    container_name: chat-service
+    build: ./chat-service
+    ports:
+      - '8003:8003'
+    volumes:
+    - ./chat-service/src:/usr/src/chat-service/src
+
   frontend:
     container_name: frontend
     build: ./frontend
@@ -72,7 +80,8 @@ services:
       - matching-service
       - question-service
     volumes:
-    - ./frontend/src:/usr/src/frontend/src
+    - ./chat-service/controller:/usr/src/chat-service/controller
+    - ./chat-service/index.js:/usr/src/chat-service/index.js
 
 
 
