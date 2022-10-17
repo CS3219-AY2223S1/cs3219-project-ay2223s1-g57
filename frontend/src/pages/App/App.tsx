@@ -18,7 +18,6 @@ import HomePage from '../Home/HomePage'
 import SettingsPage from '../Settings/SettingsPage'
 import LobbyPage from '../Lobby/LobbyPage'
 import CodepadPage from '../Codepad/CodepadPage'
-import ChatBox from '../Codepad/ChatBox'
 
 const classProps: { [className: string]: SxProps } = {
   rootDiv: {
@@ -45,7 +44,6 @@ const App: React.FC = () => {
                 <Route path={SETTINGS} element={<SettingsPage />} />
                 <Route path={LOBBY} element={<LobbyPage />} />
                 <Route path={CODEPAD} element={<CodepadPage />} />
-                <Route path="/chat" element={<ChatBox />} />
               </>
             )}
             {cookieHandler.get('jwt-peerprep') === undefined && (

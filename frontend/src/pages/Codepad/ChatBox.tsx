@@ -6,12 +6,25 @@ import { Chat, MessageList, MessageInput } from "@pubnub/react-chat-components";
 
 import { useAuth } from '../../context/AuthContext';
 
+import {
+    Card,
+    CardContent,
+    Typography,
+    Divider,
+    List,
+    Paper,
+  } from '@mui/material'
+
+interface PropData {
+    roomId: string
+}
+
 type KeyResponse = {
     publish_key: string,
     subscribe_key: string
 }
 
-const ChatBox = () => {
+const ChatBox = ({roomId}:PropData) => {
     const [pubnubClient, setPubnubClient] = useState<PubNub>()
     const { currentUsername } = useAuth()
 
@@ -35,18 +48,33 @@ const ChatBox = () => {
 
     return (
         <div>
-            {pubnubClient? (
-                <PubNubProvider client={pubnubClient}>
-                    <Chat {...{ currentChannel: "test-room", theme: "light" }}>
-                        {/* Chat is an obligatory state provider. It allows you to configure some common component
-                        options, like the current channel and the general theme for the app. */}
-                        <MessageList />
-                        <MessageInput />
-                    </Chat>
-                </PubNubProvider>
-            ) : (
-                <p>connecting...</p>
-            )};
+            <Card sx={{ boxShadow: '4', marginY: '1rem' }}>
+                <CardContent>
+                    <Typography sx={{ mb: '0.25rem' }}>
+                       <h3>Chat</h3>
+                    </Typography>
+
+                    <Divider sx={{ marginY: '0.5rem' }} />
+
+                    {pubnubClient? (
+                        <PubNubProvider client={pubnubClient}>
+                            <Chat {...{ currentChannel: roomId, theme: "light" }}>
+                                {/* Chat is an obligatory state provider. It allows you to configure some common component
+                                options, like the current channel and the general theme for the app. */}
+                                <Paper style={{maxHeight: 250, overflow: 'auto'}}>
+                                    <List>
+                                        <MessageList/>
+                                    </List>
+                                </Paper>
+
+                                <MessageInput placeholder="Type something here..."/>
+                            </Chat>
+                        </PubNubProvider>
+                    ) : (
+                        <p>connecting...</p>
+                    )}; 
+                </CardContent>
+            </Card>
         </div>
     )
 }
