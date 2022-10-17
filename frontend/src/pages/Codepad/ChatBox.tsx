@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import PubNub from "pubnub";
 import { PubNubProvider } from "pubnub-react";
@@ -28,6 +28,8 @@ const ChatBox = ({roomId}:PropData) => {
     const [pubnubClient, setPubnubClient] = useState<PubNub>()
     const { currentUsername } = useAuth()
 
+    const messagesEndRef = useRef<null | HTMLDivElement>(null); 
+
     useEffect(() => {
         if (currentUsername) {
             axios.post<KeyResponse>("http://localhost:8003/keys").then((response) => {
@@ -45,6 +47,12 @@ const ChatBox = ({roomId}:PropData) => {
         }
 
     }, [])
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current != null) {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+        }
+    }
 
     return (
         <div>
@@ -64,10 +72,11 @@ const ChatBox = ({roomId}:PropData) => {
                                 <Paper style={{maxHeight: 250, overflow: 'auto'}}>
                                     <List>
                                         <MessageList/>
+                                        <div ref={messagesEndRef}></div>
                                     </List>
                                 </Paper>
 
-                                <MessageInput placeholder="Type something here..."/>
+                                <MessageInput placeholder="Type something here..." onSend={scrollToBottom}/>
                             </Chat>
                         </PubNubProvider>
                     ) : (
