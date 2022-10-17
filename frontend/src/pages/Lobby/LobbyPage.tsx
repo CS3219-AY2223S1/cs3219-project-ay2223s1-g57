@@ -8,6 +8,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Grid,
 } from '@mui/material'
 
 import { useSocket } from '../../context/SocketContext'
@@ -153,27 +154,51 @@ const LobbyPage = () => {
         handleLeaveRoom={() => disconnectSocket(socket, setSocket)}
       />
 
-      <Typography>Matching... </Typography>
-
-      <div>
-        <CountdownCircleTimer
-          isPlaying={timerIsPlaying}
-          key={timerReset as unknown as React.Key}
-          duration={30}
-          colors={'#000000'}
-          onComplete={() => {
-            setTimeout(() => {
-              // Give 5sec lag time for server to respond
-              if (serverNoResponse.current) {
-                setDialogMsg(DialogMessage.NORESPONSE)
-                setDialogueOpen(true)
-              }
-            }, 5000)
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        // justifyContent="center"
+        style={{ paddingTop: '40px', minWidth: '100vh', minHeight: '60vh' }}
+      >
+        <Typography
+          sx={{
+            color: '#2F2F5A',
+            fontWeight: 'bold',
+            paddingBottom: '10px',
           }}
+          gutterBottom
+          variant="h5"
         >
-          {({ remainingTime }) => remainingTime}
-        </CountdownCircleTimer>
-      </div>
+          Matching...
+        </Typography>
+
+        <div>
+          <CountdownCircleTimer
+            isPlaying={timerIsPlaying}
+            key={timerReset as unknown as React.Key}
+            duration={30}
+            colors={'#E56E52'}
+            size={300}
+            onComplete={() => {
+              setTimeout(() => {
+                // Give 5sec lag time for server to respond
+                if (serverNoResponse.current) {
+                  setDialogMsg(DialogMessage.NORESPONSE)
+                  setDialogueOpen(true)
+                }
+              }, 5000)
+            }}
+          >
+            {({ remainingTime }) => (
+              <Typography variant="h3" sx={{ color: '#2F2F5A' }}>
+                {remainingTime}
+              </Typography>
+            )}
+          </CountdownCircleTimer>
+        </div>
+      </Grid>
 
       <Dialog open={dialogueOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>

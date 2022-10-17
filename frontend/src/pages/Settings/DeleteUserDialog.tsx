@@ -13,6 +13,7 @@ import {
 } from '@mui/material'
 
 import { useAuth } from '../../context/AuthContext'
+
 import { LOG_IN } from '../../constants/directory'
 
 import { URL_DELETE_USER } from '../../constants/api'
@@ -31,9 +32,8 @@ export default function ChangePasswordDialog({
   open,
 }: ChangePasswordDialogProps) {
   const navigate = useNavigate()
-  const { deleteCookie, authHeader } = useAuth()
+  const { deleteCookie, authHeader, currentUsername } = useAuth()
   const [validationText, setValidationText] = useState('')
-  const username = 'peerprepUser'
 
   const handleDelete = async () => {
     const res = await axios
@@ -65,7 +65,8 @@ export default function ChangePasswordDialog({
               Once you delete your account, there is no going back. Please be
               certain. <br />
               <br /> Please type
-              <span style={{ color: 'red' }}> {username} </span>to confirm
+              <span style={{ color: 'red' }}> {currentUsername} </span>to
+              confirm
             </DialogContentText>
 
             <TextField
@@ -81,7 +82,7 @@ export default function ChangePasswordDialog({
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button
-              disabled={validationText !== username}
+              disabled={validationText !== currentUsername}
               onClick={handleDelete}
             >
               Delete

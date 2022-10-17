@@ -4,52 +4,67 @@ import { useNavigate } from 'react-router-dom'
 import { URL_LOG_OUT } from '../constants/api'
 import { LOG_IN, SETTINGS, HOME } from '../constants/directory'
 import { Link } from 'react-router-dom'
+import PersonIcon from '@mui/icons-material/Person'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 import { useAuth } from '../context/AuthContext'
-import { AppBar, Box, Button, IconButton, Toolbar } from '@mui/material'
+import { ButtonBase, Button, Typography, Grid } from '@mui/material'
+import PeerPrepLogoSmall from './PeerPrepLogoSmall'
 
 type HeaderProps = {
+  enableLeaveRoom?: boolean
   enableHeaderButtons: boolean
   handleLeaveRoom?: () => void
 }
 
-const Header = ({ enableHeaderButtons, handleLeaveRoom }: HeaderProps) => {
+const Header = ({
+  enableLeaveRoom = true,
+  enableHeaderButtons,
+  handleLeaveRoom,
+}: HeaderProps) => {
   const navigate = useNavigate()
   const { authHeader, deleteCookie } = useAuth()
   const handleLogout = async () => {
-    await axios.post(URL_LOG_OUT, {}, authHeader)
+    console.log('here')
+    await axios
+      .post(URL_LOG_OUT, {}, authHeader)
+      .catch((err: { response: { status: any } }) => {
+        console.log(err)
+      })
+
     deleteCookie()
     navigate(LOG_IN)
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            component={Link}
-            to={HOME}
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2, flexGrow: 1 }}
-            onClick={handleLeaveRoom}
-          >
-            PeerPrep
-          </IconButton>
-          {enableHeaderButtons && (
-            <div>
-              <Button color="inherit" component={Link} to={SETTINGS}>
-                User
-              </Button>
-              <Button color="inherit" onClick={handleLogout}>
-                Logout
-              </Button>
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Grid
+      container
+      spacing={0}
+      direction="row"
+      justifyContent="space-between"
+      sx={{ paddingTop: '10px', minWidth: '100vh', minHeight: '10vh' }}
+    >
+      <Grid sx={{ paddingLeft: '5px' }} item>
+        {enableLeaveRoom ? (
+          <ButtonBase component={Link} to={HOME} onClick={handleLeaveRoom}>
+            <PeerPrepLogoSmall />
+          </ButtonBase>
+        ) : (
+          <PeerPrepLogoSmall />
+        )}
+      </Grid>
+      {enableHeaderButtons && (
+        <Grid sx={{ paddingRight: '5px' }} item>
+          <Button color="inherit" component={Link} to={SETTINGS}>
+            <PersonIcon sx={{ color: '#2F2F5A' }} />
+            <Typography sx={{ color: '#2F2F5A' }}>User</Typography>
+          </Button>
+          <Button color="inherit" onClick={handleLogout}>
+            <LogoutIcon sx={{ color: '#2F2F5A' }} />
+            <Typography sx={{ color: '#2F2F5A' }}>Log Out</Typography>
+          </Button>
+        </Grid>
+      )}
+    </Grid>
   )
 }
 

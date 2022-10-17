@@ -1,13 +1,17 @@
 # CS3219-AY22/23 G57
 
 ## Deploying all services at once
-1. Follow the individual service instructions below by adding the necessary files stated
-2. Run `docker-compose build`
-3. Run `docker-compose up`
-4. To access mongodb, install `Mongdo DB Compass` and use `mongodb://localhost:27018` as the URI
-5. To access the user-service db, install `Postico` and use the credentials stated in [user-service/.env.sample](./user-service/.env.sample) 
-6. To access the question-service db, install `Postico` and use the credentials stated in [question-service/.env.sample](./question-service/.env.sample)
 
+1. Update `.env` file for frontend. Use the credentials stated in [frontend/.env.sample](./frontend/.env.sample).
+2. You will need to create your own firebase project with a realtime database to get the codepad to work.
+3. Update `.env` file for (postgres db) user-service. Use the credentials stated in [user-service/.env.sample](./user-service/.env.sample)
+4. Update `.env` file for (postgres db) question-service. Use the credentials stated in [question-service/.env.sample](./question-service/.env.sample)
+5. Run [question-serivce/db/data.sql](question-serivce/db/data.sql) in your question-service database to populate the db
+6. Start Docker
+7. Run `docker-compose build`
+8. Run `docker-compose up`
+9. To access mongodb, install `Mongdo DB Compass` and use `mongodb://localhost:27018` as the URI
+10. To access postgres db, install `Postico` and connect to the databases for user-service and question-service in the `.env` file
 
 ## Port Table
 

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate, Navigate } from 'react-router-dom'
+import axios from 'axios'
 import {
-  Typography,
+  Button,
   Dialog,
   DialogTitle,
+  Grid,
   ListItem,
   ListItemText,
 } from '@mui/material'
@@ -19,10 +21,13 @@ import {
 } from '../../components/Socket/Socket'
 import { useBackListener } from '../../utils/Navigation'
 import { FirepadComponent } from './FirepadComponent'
+import { URL_GET_QN } from '../../constants/api'
+import Question, { QuestionInfo } from './Question'
 
 const DialogMessage = Object.freeze({
   MATCHLEFT: 'Uhoh! Your match left!',
   DISCONNECT: 'Uhoh! You got disconnected!',
+  LEAVEROOM: 'Are you sure you want to leave?',
 })
 
 interface LocationState {
@@ -52,6 +57,19 @@ const CodepadPage = () => {
   const { socket, setSocket } = useSocket()
   const [dialogMsg, setDialogMsg] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [question, setQuestion] = useState<QuestionInfo>({} as QuestionInfo)
+
+  useEffect(() => {
+    axios
+      .get(`${URL_GET_QN}/${difficulty}/${roomId}`)
+      .then((res: any) => {
+        console.log(res)
+        setQuestion(res.data.data)
+      })
+      .catch((err: { response: { status: any } }) => {
+        console.log(err.response.status)
+      })
+  }, [])
 
   useEffect(() => {
     // for refresh
@@ -89,18 +107,34 @@ const CodepadPage = () => {
     navigate(HOME, { replace: true })
   })
 
+  // home button
+  const handleLeaveRoom = () => {
+    setDialogMsg(DialogMessage.LEAVEROOM)
+    setDialogOpen(true)
+  }
+
   return (
     <div>
       <Header
+        enableLeaveRoom={false}
         enableHeaderButtons={false}
         handleLeaveRoom={() => disconnectSocket(socket, setSocket)}
       />
-      <Typography>Codepad Page</Typography>
-      <Typography>Room ID: {roomId}</Typography>
-      <Typography>Difficulty: {difficulty}</Typography>
+      <Grid container direction="row" justifyContent="flex-end">
+        <Grid item>
+          <Button onClick={handleLeaveRoom}>Leave Session</Button>
+        </Grid>
+      </Grid>
+
+      <Question question={question} />
       <FirepadComponent roomId={roomId} />
       <Dialog open={dialogOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>
+        {dialogMsg === DialogMessage.LEAVEROOM && (
+          <ListItem button onClick={() => setDialogOpen(false)}>
+            <ListItemText primary={'Cancel'} />
+          </ListItem>
+        )}
         <ListItem button onClick={handleHomeButton}>
           <ListItemText primary={'Home'} />
         </ListItem>
