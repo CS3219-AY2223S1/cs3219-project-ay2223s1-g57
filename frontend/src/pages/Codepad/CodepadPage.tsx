@@ -23,6 +23,7 @@ import { useBackListener } from '../../utils/Navigation'
 import { FirepadComponent } from './FirepadComponent'
 import { URL_GET_QN } from '../../constants/api'
 import Question, { QuestionInfo } from './Question'
+import ChatBox from './ChatBox'
 
 const DialogMessage = Object.freeze({
   MATCHLEFT: 'Uhoh! Your match left!',
@@ -128,6 +129,7 @@ const CodepadPage = () => {
 
       <Question question={question} />
       <FirepadComponent roomId={roomId} />
+      <ChatBox roomId={roomId} />
       <Dialog open={dialogOpen}>
         <DialogTitle>{dialogMsg}</DialogTitle>
         {dialogMsg === DialogMessage.LEAVEROOM && (
