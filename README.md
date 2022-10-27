@@ -4,14 +4,15 @@
 
 1. Update `.env` file for frontend. Use the credentials stated in [frontend/.env.sample](./frontend/.env.sample).
 2. You will need to create your own firebase project with a realtime database to get the codepad to work.
-3. Update `.env` file for (postgres db) user-service. Use the credentials stated in [user-service/.env.sample](./user-service/.env.sample)
-4. Update `.env` file for (postgres db) question-service. Use the credentials stated in [question-service/.env.sample](./question-service/.env.sample)
-5. Run [question-serivce/db/data.sql](question-serivce/db/data.sql) in your question-service database to populate the db
-6. Start Docker
-7. Run `docker-compose build`
-8. Run `docker-compose up`
-9. To access mongodb, install `Mongdo DB Compass` and use `mongodb://localhost:27018` as the URI
-10. To access postgres db, install `Postico` and connect to the databases for user-service and question-service in the `.env` file
+3. Update `.env` file for (PUBNUB) chat-service. You will need to create your own PUBNUB project for the chat service to work.
+4. Update `.env` file for (postgres db) user-service. Use the credentials stated in [user-service/.env.sample](./user-service/.env.sample)
+5. Update `.env` file for (postgres db) question-service. Use the credentials stated in [question-service/.env.sample](./question-service/.env.sample)
+6. Run [question-serivce/db/data.sql](question-serivce/db/data.sql) in your question-service database to populate the db
+7. Start Docker
+8. Run `docker-compose build`
+9. Run `docker-compose up`
+10. To access mongodb, install `Mongdo DB Compass` and use `mongodb://localhost:27018` as the URI
+11. To access postgres db, install `Postico` and connect to the databases for user-service and question-service in the `.env` file
 
 ## Port Table
 
@@ -23,6 +24,7 @@ Saves all the ports so they don't clash
 | User Service     | 8000 |
 | Matching Service | 8001 |
 | Question Service | 8002 |
+| Chat Service     | 8003 |
 
 ## Deploying individual services:
 
@@ -57,6 +59,12 @@ Saves all the ports so they don't clash
 2. Create a .env file in /question-service to store credentials for postgres. Refer to [question-service/.env.sample](./question-service/.env.sample) for more info.
 3. Install npm packages using `npm i`.
 4. Run Question Service using `npm run dev`.
+
+## Chat Service
+
+1. Create a .env file in /chat-service to store credentials for pubnub. Refer to [chat-service/.env.sample](./chat-service/.env.sample) for more info.
+2. Install npm packages using `npm i`.
+3. Run Question Service using `npm run dev`.
 
 **Populating Questions Table**
 
