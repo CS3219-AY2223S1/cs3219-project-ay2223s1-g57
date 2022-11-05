@@ -33,7 +33,7 @@ export async function findPendingMatch(user, difficulty) {
     if (user) {
         return PendingMatchModel.findOne({user: user})
     } else {
-        return PendingMatchModel.findOne({difficulty: difficulty})
+        return PendingMatchModel.findOne({difficulty: difficulty}).sort({"created_at": 1})
     }
 }
 
