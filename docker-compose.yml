@@ -74,11 +74,12 @@ services:
     container_name: frontend
     build: ./frontend
     ports:
-      - '3000:3000'
+      - '3001:3000'
     depends_on:
       - user-service
       - matching-service
       - question-service
+      - chat-service
     volumes:
     - ./chat-service/controller:/usr/src/chat-service/controller
     - ./chat-service/index.js:/usr/src/chat-service/index.js

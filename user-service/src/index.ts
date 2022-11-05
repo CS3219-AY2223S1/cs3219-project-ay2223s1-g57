@@ -14,7 +14,7 @@ export const get = () => {
     return res.status(200).send(`Express + TypeScript Server`);
   });
 
-  const allowedOrigins = ["http://localhost:3000"];
+  const allowedOrigins = ["http://localhost:3001"];
   const options: cors.CorsOptions = {
     origin: allowedOrigins,
   };
