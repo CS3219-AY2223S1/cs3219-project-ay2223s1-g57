@@ -1,6 +1,6 @@
 import * as io from 'socket.io-client'
 import { Socket } from 'socket.io-client'
-
+import { URI_MATCHING_SVC } from '../../constants/api'
 import { DifficultyType } from '../../enums/Difficulty'
 
 const checkSocketExist = (socket: Socket | null) => {
@@ -16,7 +16,7 @@ const checkSocketExist = (socket: Socket | null) => {
 export const initSocket = (
   setSocket: React.Dispatch<React.SetStateAction<Socket | null>>,
 ): void => {
-  setSocket(io.connect('http://localhost:8001'))
+  setSocket(io.connect(URI_MATCHING_SVC))
 }
 
 export const disconnectSocket = (

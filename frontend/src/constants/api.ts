@@ -17,7 +17,6 @@ export const URL_CHANGE_PASSWORD =
   URI_USER_SVC + USER_API_VERSION + USERS + CHANGE_PASSWORD
 export const URL_DELETE_USER = URI_USER_SVC + USER_API_VERSION + USERS
 
-
 //////////////////////////
 // QUESTION SERVICE
 //////////////////////////
@@ -29,3 +28,12 @@ const DIFFICULTY = '/difficulty'
 
 export const URL_GET_QN = URI_QN_SVC + QN_API_VERSION + QUESTIONS + DIFFICULTY
 
+//////////////////////////
+// MATCHING SERVICE
+//////////////////////////
+export const URI_MATCHING_SVC = 'http://localhost:8001'
+
+//////////////////////////
+// CHAT SERVICE
+//////////////////////////
+export const URI_CHAT_SVC = 'http://localhost:8003'
