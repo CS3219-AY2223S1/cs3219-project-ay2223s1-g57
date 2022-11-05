@@ -69,7 +69,7 @@ const ChatBox = ({roomId}:PropData) => {
                             <Chat {...{ currentChannel: roomId, theme: "light" }}>
                                 {/* Chat is an obligatory state provider. It allows you to configure some common component
                                 options, like the current channel and the general theme for the app. */}
-                                <Paper style={{maxHeight: 250, overflow: 'auto'}}>
+                                <Paper style={{minHeight: 250, maxHeight: 250, overflow: 'auto'}}>
                                     <List>
                                         <MessageList/>
                                         <div ref={messagesEndRef}></div>
