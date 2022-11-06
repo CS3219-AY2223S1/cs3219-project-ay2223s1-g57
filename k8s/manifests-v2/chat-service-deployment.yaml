@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-service
+  labels:
+    app: chat-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-service
+  template:
+    metadata:
+      labels:
+        app: chat-service
+    spec:
+      containers:
+        - name: chat-service
+          image: chat-service
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8003
+          resources:
+            # limits:
+            #   cpu: 40m
+              # memory: 100Mi
+      restartPolicy: Always

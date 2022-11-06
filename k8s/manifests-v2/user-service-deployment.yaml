@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - env:
+            - name: ALLOWED_ORIGINS
+              value: http://localhost:3000
+            - name: DB_USER
+              value: postgres
+            - name: DB_HOST
+              value: userservicedb
+            - name: DB_PASSWORD
+              value: postgres
+            - name: DB_NAME
+              value: postgres
+            - name: DB_PORT
+              value: '5432'
+          name: user-service
+          image: user-service
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            # limits:
+            #   cpu: 40m
+              # memory: 100Mi
+      restartPolicy: Always

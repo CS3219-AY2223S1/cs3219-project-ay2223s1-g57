@@ -11,7 +11,7 @@ export const getApp = () => {
   app.use(cors()); // config cors so that front-end can use
   app.options("*", cors());
 
-  const current_api = "/api/v1";
+  const current_api = "/api/question-service";
 
   // middleware
   app.use(bodyParser.json());
