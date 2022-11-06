@@ -15,7 +15,20 @@ spec:
         app: user-service
     spec:
       containers:
-        - name: user-service
+        - env:
+            - name: ALLOWED_ORIGINS
+              value: http://localhost:3001
+            - name: DB_USER
+              value: postgres
+            - name: DB_HOST
+              value: userservicedb
+            - name: DB_PASSWORD
+              value: postgres
+            - name: DB_NAME
+              value: postgres
+            - name: DB_PORT
+              value: '5432'
+          name: user-service
           image: user-service
           imagePullPolicy: Never
           ports:

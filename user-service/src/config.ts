@@ -6,12 +6,14 @@ export const DEV_ENV = process.env.NODE_ENV;
 
 export const access_token_secret = process.env.ACCESS_TOKEN_SECRET as Secret;
 
-export const port = Number(process.env.API_PORT);
-export const db_host = String(process.env.DB_HOST);
-export const db_port = Number(process.env.DB_PORT);
-export const db_name = String(process.env.DB_NAME);
-export const db_user = String(process.env.DB_USER);
-export const db_password = String(process.env.DB_PASSWORD);
+export const allowed_origins =
+  process.env.ALLOWED_ORIGINS || "Allowed Origin is not present";
+export const port = process.env.API_PORT || 8000;
+export const db_host = process.env.DB_HOST || "userservicedb";
+export const db_port = process.env.DB_PORT || 5433;
+export const db_name = process.env.DB_NAME || "postgress";
+export const db_user = process.env.DB_USER || "postgres";
+export const db_password = process.env.DB_PASSWORD || "postgres";
 export const db_dialect = "postgres";
 
 export const sequelizeConnection = new Sequelize(

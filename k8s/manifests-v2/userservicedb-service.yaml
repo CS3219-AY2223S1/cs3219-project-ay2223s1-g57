@@ -9,7 +9,6 @@ spec:
     app: userservicedb
   ports:
     - name: http
-      port: 5433
+      port: 5432
       targetPort: 5432
       protocol: TCP
-      targetPort: http
