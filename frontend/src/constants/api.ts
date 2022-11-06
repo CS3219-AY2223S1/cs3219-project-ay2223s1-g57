@@ -1,7 +1,7 @@
 //////////////////////////
 // USER SERVICE
 //////////////////////////
-const URI_USER_SVC = 'http://localhost:80'
+const URI_USER_SVC = process.env.INGRESS_URI || 'http://localhost:8000'
 
 const USER_API_VERSION = '/api/user-service'
 const SIGN_UP = '/signup'
@@ -20,7 +20,7 @@ export const URL_DELETE_USER = URI_USER_SVC + USER_API_VERSION + USERS
 //////////////////////////
 // QUESTION SERVICE
 //////////////////////////
-const URI_QN_SVC = 'http://localhost:80'
+const URI_QN_SVC = process.env.INGRESS_URI || 'http://localhost:8002'
 
 const QN_API_VERSION = '/api/question-service'
 const QUESTIONS = '/questions'
@@ -32,9 +32,11 @@ export const URL_GET_QN = URI_QN_SVC + QN_API_VERSION + QUESTIONS + DIFFICULTY
 // MATCHING SERVICE
 //////////////////////////
 // export const URI_MATCHING_SVC = 'http://localhost:80/api/matching-service'
-export const URI_MATCHING_SVC = 'http://localhost:80'
+export const URI_MATCHING_SVC =
+  process.env.INGRESS_URI || 'http://localhost:8001'
 
 //////////////////////////
 // CHAT SERVICE
 //////////////////////////
-export const URI_CHAT_SVC = 'http://localhost:80/api/chat-service'
+export const URI_CHAT_SVC =
+  (process.env.INGRESS_URI || 'http://localhost:8003') + '/api/chat-service'

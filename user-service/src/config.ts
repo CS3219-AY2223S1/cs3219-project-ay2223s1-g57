@@ -7,7 +7,7 @@ export const DEV_ENV = process.env.NODE_ENV;
 export const access_token_secret = process.env.ACCESS_TOKEN_SECRET as Secret;
 
 export const allowed_origins =
-  process.env.ALLOWED_ORIGINS || "Allowed Origin is not present";
+  process.env.ALLOWED_ORIGINS || "http://localhost:3000";
 export const port = process.env.API_PORT || 8000;
 export const db_host = process.env.DB_HOST || "userservicedb";
 export const db_port = process.env.DB_PORT || 5433;
