@@ -1,9 +1,9 @@
 //////////////////////////
 // USER SERVICE
 //////////////////////////
-const URI_USER_SVC = 'http://localhost:8000'
+const URI_USER_SVC = 'http://localhost:80'
 
-const USER_API_VERSION = '/api/v1'
+const USER_API_VERSION = '/api/user-service'
 const SIGN_UP = '/signup'
 const LOG_IN = '/login'
 const LOG_OUT = '/logout'

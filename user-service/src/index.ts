@@ -21,7 +21,7 @@ export const get = () => {
 
   // Then pass these options to cors:
   app.use(cors(options));
-  app.use("/api/v1", mainRouter);
+  app.use("/api/user-service", mainRouter);
   return app;
 };
 
