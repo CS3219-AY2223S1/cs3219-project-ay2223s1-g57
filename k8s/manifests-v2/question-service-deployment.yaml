@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: question-service
+  labels:
+    app: question-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: question-service
+  template:
+    metadata:
+      labels:
+        app: question-service
+    spec:
+      containers:
+        - env:
+            - name: ALLOWED_ORIGINS
+              value: http://localhost:3001
+            - name: DB_USER
+              value: postgres
+            - name: DB_HOST
+              value: questionservicedb
+            - name: DB_PASSWORD
+              value: postgres
+            - name: DB_NAME
+              value: postgres
+            - name: DB_PORT
+              value: '5432'
+          name: question-service
+          image: question-service
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8002
+          resources:
+            # limits:
+            #   cpu: 40m
+              # memory: 100Mi
+      restartPolicy: Always
