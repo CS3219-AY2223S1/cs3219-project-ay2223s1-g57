@@ -72,7 +72,6 @@ const ChatBox = ({ roomId }: PropData) => {
                     <div ref={messagesEndRef}></div>
                   </List>
                 </Paper>
-
                 <MessageInput
                   placeholder="Type something here..."
                   onSend={scrollToBottom}
