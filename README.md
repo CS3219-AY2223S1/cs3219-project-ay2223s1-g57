@@ -1,6 +1,33 @@
 # CS3219-AY22/23 G57
 
-## Deploying all services at once
+## Deploying all services at once method 1 : `kubernetes`
+### Updating the environment files
+1. Update `.env` file for frontend. Use the credentials stated in [frontend/.env.sample](./frontend/.env.sample).
+2. You will need to create your own firebase project with a realtime database to get the codepad to work.
+3. Update `.env` file for (PUBNUB) chat-service. You will need to create your own PUBNUB project for the chat service to work.
+
+### Creating and Initialising a local kubernetes cluster
+1. Build all the backend services docker images: `sh k8s-ms-docker-build.sh`
+2. Create local kubenetes cluster: `sh k8s/cluster-create.sh`
+3. Load all the backend services docker images into the cluster: `sh k8s/cluster-image-setup.sh`
+4. Create all the kubernetes objects by running all the manifest files: `sh k8s/microservices-setup.sh`
+5. The `ingress-object` is dependent on the creation of the `ingress-controller`. You can check if the  `ingress-controller` has been created using `kubectl -n ingress-nginx get deploy -w`. You can check if the `ingress-object` is created using `kubectl get ingress/backend`. If the `ingress-object` is not created, wait until the `ingress-controller` is created and re-run  `sh k8s/microservices-setup.sh`
+
+### Populating the questionservicedb
+1. It is intended that the databases inside the cluster are not accessible from the outside. However we need a one time population of the questionservicedb
+2. You can do this by exposing the questionservicedb temporarily using `kubectl port-forward svc/questionservicedb 5434:5432`
+3. Run [question-serivce/db/data.sql](question-serivce/db/data.sql) in your question-service database to populate the db
+4. Cancel the port-forward `Ctrl + C`
+
+### Running the frontend
+1. Since the frontend exists outside of the kubernetes cluster, we deploy it separately
+2. Build and run the frontend using `sh k8s-frontend.sh`
+
+### Adjusting the number of backend services
+1. You can adjust the number of backend services to handle the increasing load under [k8s/manifests-v2/](k8s/manifests-v2/)
+2. Find the `-hpa.yaml` file of the service that you intend to scale and increase the min/max replicas 
+
+## Deploying all services at once method 2 : `docker-compose`
 
 1. Update `.env` file for frontend. Use the credentials stated in [frontend/.env.sample](./frontend/.env.sample).
 2. You will need to create your own firebase project with a realtime database to get the codepad to work.
