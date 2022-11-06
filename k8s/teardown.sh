@@ -15,4 +15,5 @@ kubectl delete service/user-service
 kubectl delete service/userservicedb
 
 kubectl delete hpa/chat-service-hpa
+kubectl delete hpa/matching-service-hpa
 

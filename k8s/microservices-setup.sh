@@ -19,6 +19,8 @@ kubectl apply -f manifests-v2/mongodb-service.yaml
 
 kubectl apply -f manifests-v2/matching-service-deployment.yaml
 kubectl apply -f manifests-v2/matching-service-service.yaml
+kubectl apply -f manifests-v2/matching-service-hpa.yaml
+
 
 kubectl apply -f manifests-v2/chat-service-deployment.yaml
 kubectl apply -f manifests-v2/chat-service-service.yaml
