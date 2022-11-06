@@ -20,3 +20,10 @@ spec:
                 name: user-service
                 port:
                   number: 8000
+          - path: /api/question-service/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: question-service
+                port:
+                  number: 8002

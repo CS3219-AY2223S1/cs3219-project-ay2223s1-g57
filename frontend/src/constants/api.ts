@@ -20,9 +20,9 @@ export const URL_DELETE_USER = URI_USER_SVC + USER_API_VERSION + USERS
 //////////////////////////
 // QUESTION SERVICE
 //////////////////////////
-const URI_QN_SVC = 'http://localhost:8002'
+const URI_QN_SVC = 'http://localhost:80'
 
-const QN_API_VERSION = '/api/v1'
+const QN_API_VERSION = '/api/question-service'
 const QUESTIONS = '/questions'
 const DIFFICULTY = '/difficulty'
 
