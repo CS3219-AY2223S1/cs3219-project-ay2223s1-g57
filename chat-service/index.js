@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
     res.send("Hello World from chat-service");
 });
 
-app.post("/keys", (req, res) => handleGetKeys(req, res))
+app.post("/api/chat-service/keys", (req, res) => handleGetKeys(req, res))
 
 const httpServer = createServer(app);
 

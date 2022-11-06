@@ -37,4 +37,4 @@ export const URI_MATCHING_SVC = 'http://localhost:80'
 //////////////////////////
 // CHAT SERVICE
 //////////////////////////
-export const URI_CHAT_SVC = 'http://localhost:8003'
+export const URI_CHAT_SVC = 'http://localhost:80/api/chat-service'

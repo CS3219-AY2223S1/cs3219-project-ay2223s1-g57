@@ -41,3 +41,10 @@ spec:
                 name: question-service
                 port:
                   number: 8002
+          - path: /api/chat-service/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-service
+                port:
+                  number: 8003
