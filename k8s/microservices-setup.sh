@@ -12,3 +12,10 @@ kubectl apply -f manifests-v2/questionservicedb-service.yaml
 
 kubectl apply -f manifests-v2/question-service-deployment.yaml
 kubectl apply -f manifests-v2/question-service-service.yaml
+
+kubectl apply -f manifests-v2/mongodb-deployment.yaml
+kubectl apply -f manifests-v2/mongodb-volume.yaml
+kubectl apply -f manifests-v2/mongodb-service.yaml
+
+kubectl apply -f manifests-v2/matching-service-deployment.yaml
+kubectl apply -f manifests-v2/matching-service-service.yaml
