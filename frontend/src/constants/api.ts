@@ -31,7 +31,8 @@ export const URL_GET_QN = URI_QN_SVC + QN_API_VERSION + QUESTIONS + DIFFICULTY
 //////////////////////////
 // MATCHING SERVICE
 //////////////////////////
-export const URI_MATCHING_SVC = 'http://localhost:8001'
+// export const URI_MATCHING_SVC = 'http://localhost:80/api/matching-service'
+export const URI_MATCHING_SVC = 'http://localhost:80'
 
 //////////////////////////
 // CHAT SERVICE

@@ -20,6 +20,20 @@ spec:
                 name: user-service
                 port:
                   number: 8000
+          - path: /api/matching-service/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: matching-service
+                port:
+                  number: 8001
+          - path: /socket.io/*
+            pathType: Prefix
+            backend:
+              service:
+                name: matching-service
+                port:
+                  number: 8001
           - path: /api/question-service/?(.*)
             pathType: Prefix
             backend:

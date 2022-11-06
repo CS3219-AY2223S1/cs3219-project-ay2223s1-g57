@@ -17,7 +17,7 @@ spec:
       containers:
         - env:
             - name: ALLOWED_ORIGINS
-              value: http://localhost:3001
+              value: http://localhost:3000
             - name: DB_USER
               value: postgres
             - name: DB_HOST
