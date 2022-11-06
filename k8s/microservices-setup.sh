@@ -22,3 +22,4 @@ kubectl apply -f manifests-v2/matching-service-service.yaml
 
 kubectl apply -f manifests-v2/chat-service-deployment.yaml
 kubectl apply -f manifests-v2/chat-service-service.yaml
+kubectl apply -f manifests-v2/chat-service-hpa.yaml
