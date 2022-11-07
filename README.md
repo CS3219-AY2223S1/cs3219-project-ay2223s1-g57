@@ -8,10 +8,11 @@
 
 ### Creating and Initialising a local kubernetes cluster
 1. Build all the backend services docker images: `sh k8s-ms-docker-build.sh`
-2. Create local kubenetes cluster: `sh k8s/cluster-create.sh`
-3. Load all the backend services docker images into the cluster: `sh k8s/cluster-image-setup.sh`
-4. Create all the kubernetes objects by running all the manifest files: `sh k8s/microservices-setup.sh`
-5. The `ingress-object` is dependent on the creation of the `ingress-controller`. You can check if the  `ingress-controller` has been created using `kubectl -n ingress-nginx get deploy -w`. You can check if the `ingress-object` is created using `kubectl get ingress/backend`. If the `ingress-object` is not created, wait until the `ingress-controller` is created and re-run  `sh k8s/microservices-setup.sh`
+2. Go to the k8s directory
+3. Create local kubenetes cluster: `sh cluster-create.sh`
+4. Load all the backend services docker images into the cluster: `sh cluster-image-setup.sh`
+5. Create all the kubernetes objects by running all the manifest files: `sh microservices-setup.sh`
+6. The `ingress-object` is dependent on the creation of the `ingress-controller`. You can check if the  `ingress-controller` has been created using `kubectl -n ingress-nginx get deploy -w`. You can check if the `ingress-object` is created using `kubectl get ingress/backend`. If the `ingress-object` is not created, wait until the `ingress-controller` is created and re-run  `sh microservices-setup.sh`
 
 ### Populating the questionservicedb
 1. It is intended that the databases inside the cluster are not accessible from the outside. However we need a one time population of the questionservicedb
