@@ -52,7 +52,7 @@ export const FirepadComponent = ({ roomId }: Props) => {
       ref={editorRef}
       placeholder="Your code goes here....."
       mode="sh"
-      theme="chrome"
+      theme="clouds"
       name="firepad"
       fontSize={16}
       width={'100%'}
