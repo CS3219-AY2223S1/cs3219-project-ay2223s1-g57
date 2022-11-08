@@ -1,9 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Navigate, Link } from 'react-router-dom'
 import { Box, Button, Container, Typography, Grid } from '@mui/material'
 import { LOG_IN } from '../../constants/directory'
+import { useAuth } from '../../context/AuthContext'
 
 export default function Error() {
+  const { cookieHandler } = useAuth()
+  if (cookieHandler.get('jwt-peerprep') === undefined) {
+    return <Navigate to={LOG_IN} />
+  }
+
   return (
     <Box
       sx={{
