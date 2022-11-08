@@ -26,24 +26,29 @@ type KeyResponse = {
 
 const ChatBox = ({ roomId }: PropData) => {
   const [pubnubClient, setPubnubClient] = useState<PubNub>()
-  const { currentUsername } = useAuth()
+  const { currentUsername, authHeader } = useAuth()
 
   const messagesEndRef = useRef<null | HTMLDivElement>(null)
 
   useEffect(() => {
     if (currentUsername) {
-      axios.post<KeyResponse>(`${URI_CHAT_SVC}/keys`).then((response) => {
-        if (response.status == 200) {
-          const publish_key = response.data.publish_key
-          const subscribe_key = response.data.subscribe_key
-          const pubnub = new PubNub({
-            publishKey: publish_key,
-            subscribeKey: subscribe_key,
-            userId: currentUsername,
-          })
-          setPubnubClient(pubnub)
-        }
-      })
+      axios
+        .post<KeyResponse>(`${URI_CHAT_SVC}/keys`, {}, authHeader)
+        .then((response) => {
+          if (response.status == 200) {
+            const publish_key = response.data.publish_key
+            const subscribe_key = response.data.subscribe_key
+            const pubnub = new PubNub({
+              publishKey: publish_key,
+              subscribeKey: subscribe_key,
+              userId: currentUsername,
+            })
+            setPubnubClient(pubnub)
+          }
+        })
+        .catch((err: { response: { status: any } }) => {
+          console.log(err.response.status)
+        })
     }
   }, [])
 

@@ -25,7 +25,6 @@ const Header = ({
   const navigate = useNavigate()
   const { authHeader, deleteCookie } = useAuth()
   const handleLogout = async () => {
-    console.log('here')
     await axios
       .post(URL_LOG_OUT, {}, authHeader)
       .catch((err: { response: { status: any } }) => {
