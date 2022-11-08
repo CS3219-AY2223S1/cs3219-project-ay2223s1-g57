@@ -81,7 +81,6 @@ const ChatBox = ({ roomId }: PropData) => {
           ) : (
             <p>connecting...</p>
           )}
-          ;
         </CardContent>
       </Card>
     </div>
