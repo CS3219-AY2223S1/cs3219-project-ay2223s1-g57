@@ -63,7 +63,6 @@ const CodepadPage = () => {
   const [question, setQuestion] = useState<QuestionInfo>({} as QuestionInfo)
 
   useEffect(() => {
-    console.log(`sending auth with header ${authHeader}`)
     axios
       .get(`${URL_GET_QN}/${difficulty}/${roomId}`, authHeader)
       .then((res: any) => {
