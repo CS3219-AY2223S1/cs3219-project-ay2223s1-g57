@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { Difficulty } from "../../enums/QuestionEnums";
 import * as questionController from "../controllers/question";
+import { authenticateMiddleware } from "../middleware/auth";
 import Util from "../util/Util";
 
 const questionsRouter = Router();
@@ -8,6 +9,7 @@ const questionsRouter = Router();
 // Get Question by difficulty and roomId
 questionsRouter.get(
     "/difficulty/:difficulty/:roomId",
+    authenticateMiddleware,
     async (req: Request, res: Response) => {
         try {
             const difficulty: Difficulty = (<any>Difficulty)[

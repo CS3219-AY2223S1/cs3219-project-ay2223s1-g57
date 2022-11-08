@@ -24,6 +24,7 @@ import { FirepadComponent } from './FirepadComponent'
 import { URL_GET_QN } from '../../constants/api'
 import Question, { QuestionInfo } from './Question'
 import ChatBox from './ChatBox'
+import { useAuth } from '../../context/AuthContext'
 
 const DialogMessage = Object.freeze({
   MATCHLEFT: 'Uhoh! Your match left!',
@@ -46,6 +47,7 @@ const verifyState = (obj: unknown): obj is LocationState => {
 }
 
 const CodepadPage = () => {
+  const { authHeader } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -61,8 +63,9 @@ const CodepadPage = () => {
   const [question, setQuestion] = useState<QuestionInfo>({} as QuestionInfo)
 
   useEffect(() => {
+    console.log(`sending auth with header ${authHeader}`)
     axios
-      .get(`${URL_GET_QN}/${difficulty}/${roomId}`)
+      .get(`${URL_GET_QN}/${difficulty}/${roomId}`, authHeader)
       .then((res: any) => {
         console.log(res)
         setQuestion(res.data.data)
