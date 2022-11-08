@@ -66,7 +66,6 @@ const CodepadPage = () => {
     axios
       .get(`${URL_GET_QN}/${difficulty}/${roomId}`, authHeader)
       .then((res: any) => {
-        console.log(res)
         setQuestion(res.data.data)
       })
       .catch((err: { response: { status: any } }) => {

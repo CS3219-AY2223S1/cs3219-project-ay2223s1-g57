@@ -74,8 +74,6 @@ const LobbyPage = () => {
   const { socket, setSocket } = useSocket()
 
   const handleMatchFound = (data: SocketData): void => {
-    console.log(SocketEvents.FOUND_MATCH, data!.roomId)
-
     removeAllSocketEventsListeners(socket)
     navigate(CODEPAD, {
       state: {
@@ -86,8 +84,6 @@ const LobbyPage = () => {
   }
 
   const handleNoMatch = (data: SocketData): void => {
-    console.log(SocketEvents.NO_MATCH, data!.roomId)
-
     setDialogueOpen(true)
     serverNoResponse.current = false
   }

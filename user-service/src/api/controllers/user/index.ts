@@ -25,7 +25,6 @@ export const deleteUser = async (
   res: Response,
 ): Promise<void> => {
   // user is decrypted from middleware
-  console.log("deleteUser");
 
   const { user } = req.body;
 

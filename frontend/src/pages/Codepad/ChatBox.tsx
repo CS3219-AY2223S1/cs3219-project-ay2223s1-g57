@@ -32,8 +32,6 @@ const ChatBox = ({ roomId }: PropData) => {
 
   useEffect(() => {
     if (currentUsername) {
-      console.log('Chatbox header')
-      console.log(authHeader)
       axios
         .post<KeyResponse>(`${URI_CHAT_SVC}/keys`, {}, authHeader)
         .then((response) => {
