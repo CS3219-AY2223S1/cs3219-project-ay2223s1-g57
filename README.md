@@ -101,6 +101,7 @@ Saves all the ports so they don't clash
 ## Load Testing
 
 1. Install Artillery using `npm install -g artillery`
-2. Run load testing on User service with `artillery run load_user_service.yml`
-3. Run load testing on Question service with `artillery run load_question_service.yml`
-4. Run load testing on Chat service with `artillery run load_chat_service.yml`
+2. Navigate to load_testing directory
+3. Run load testing on User service with `artillery run load_user_service.yml`
+4. Run load testing on Question service with `artillery run load_question_service.yml`
+5. Run load testing on Chat service with `artillery run load_chat_service.yml`
