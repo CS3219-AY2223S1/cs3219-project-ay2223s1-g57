@@ -1,0 +1,20 @@
+config:
+  target: "http://localhost:8000"
+  payload:
+    path: "load_testing.csv"
+    fields:
+      - "username"
+      - "password"
+  phases:
+    - duration: 2
+      arrivalRate: 50
+      name: Heavy load
+
+scenarios:
+  - name: "User service sign up"
+    flow:
+    - post:
+        url: "/api/user-service/signup/"
+        json:
+          username: "{{username}}"
+          password: "{{password}}"
