@@ -14,8 +14,9 @@
 2. Go to the k8s directory
 3. Create local kubenetes cluster: `sh cluster-create.sh`
 4. Load all the backend services docker images into the cluster: `sh cluster-image-setup.sh`
-5. Create all the kubernetes objects by running all the manifest files: `sh microservices-setup.sh`
-6. The `ingress-object` is dependent on the creation of the `ingress-controller`. You can check if the `ingress-controller` has been created using `kubectl -n ingress-nginx get deploy -w`. You can check if the `ingress-object` is created using `kubectl get ingress/backend`. If the `ingress-object` is not created, wait until the `ingress-controller` is created and re-run `sh microservices-setup.sh`
+5. Create all the database and ingress-controller kubernetes objects by running all the manifest files: `sh dependencies-setup.sh`
+6. Ensure that all the dependencies are running before continuing to the next step. Check using `kubectl get po` and ensure all pods are up and running. You can check the ingress controller using `kubectl -n ingress-nginx get deploy -w`
+7. Create all the microservices and ingress kubernetes objects by running all the manifest files: `sh microservices-setup.sh`
 
 ### Populating the questionservicedb
 
@@ -33,6 +34,10 @@
 
 1. You can adjust the number of backend services to handle the increasing load under [k8s/manifests-v2/](k8s/manifests-v2/)
 2. Find the `-hpa.yaml` file of the service that you intend to scale and increase the min/max replicas
+
+### Teardown
+
+Teardown using `teardown.sh`
 
 ## Deploying all services at once method 2 : `docker-compose`
 
