@@ -21,7 +21,7 @@
 
 1. It is intended that the databases inside the cluster are not accessible from the outside. However we need a one time population of the questionservicedb
 2. You can do this by exposing the questionservicedb temporarily using `kubectl port-forward svc/questionservicedb 5434:5432`
-3. Run [question-service/db/data.sql](question-service/db/data.sql) in your question-service database to populate the db
+3. Run [question-service/database/data.sql](question-service/database/data.sql) in your question-service database to populate the db
 4. Cancel the port-forward `Ctrl + C`
 
 ### Running the frontend
