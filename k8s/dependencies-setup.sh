@@ -9,3 +9,5 @@ kubectl apply -f manifests-v2/mongodb-volume.yaml
 kubectl apply -f manifests-v2/mongodb-service.yaml
 
 kubectl apply -f manifests-v2/backend-ingress-controller.yaml 
+
+kubectl apply -f manifests-v2/backend-metrics-server.yaml

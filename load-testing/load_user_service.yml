@@ -1,5 +1,5 @@
 config:
-  target: "http://localhost:8000"
+  target: "http://localhost:80"
   payload:
     path: "load_testing.csv"
     fields:

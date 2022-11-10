@@ -1,7 +1,7 @@
 config:
   target: "http:/"
   phases:
-    - duration: 3
+    - duration: 10
       arrivalRate: 100
       name: Heavy load
 
@@ -9,12 +9,12 @@ before:
   flow:
     - log: "Get JWT Token"
     - post:
-        url: "/localhost:8000/api/user-service/signup/"
+        url: "/localhost:80/api/user-service/signup/"
         json:
           username: "load_tester"
           password: "test_password"
     - post:
-        url: "/localhost:8000/api/user-service/login/"
+        url: "/localhost:80/api/user-service/login/"
         json:
           username: "load_tester"
           password: "test_password"     
@@ -26,6 +26,6 @@ scenarios:
   - name: "Chat service"
     flow:
     - post:
-        url: "/localhost:8003/api/chat-service/keys"
+        url: "/localhost:80/api/chat-service/keys"
         headers:
           authorization: "Bearer {{ token }}"
