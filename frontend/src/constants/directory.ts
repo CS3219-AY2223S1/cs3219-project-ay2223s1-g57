@@ -1,0 +1,6 @@
+export const SIGN_UP = '/signup'
+export const LOG_IN = '/login'
+export const HOME = '/home'
+export const SETTINGS = '/settings'
+export const LOBBY = '/lobby'
+export const CODEPAD = '/codepad'

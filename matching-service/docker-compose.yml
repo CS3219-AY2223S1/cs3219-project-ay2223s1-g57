@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - 27017
+
+  matching-service:
+    container_name: matching-service
+    build: .
+    ports:
+      - '8001:8001'
+    depends_on:
+      - mongodb
+    environment:
+      - DB_LOCAL_URI=mongodb://mongodb:27017/mydb
+    volumes:
+    - ./controller:/usr/src/matching-service/controller
+    - ./model:/usr/src/matching-service/model
+    - ./index.js:/usr/src/matching-service/index.js

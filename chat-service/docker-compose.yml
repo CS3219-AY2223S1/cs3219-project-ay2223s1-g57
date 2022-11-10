@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  chat-service:
+    container_name: chat-service
+    build: .
+    ports:
+      - '8003:8003'
+    volumes:
+    - ./controller:/usr/src/chat-service/controller
+    - ./index.js:/usr/src/chat-service/index.js

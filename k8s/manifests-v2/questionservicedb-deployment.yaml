@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: questionservicedb
+  labels:
+    app: questionservicedb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: questionservicedb
+  template:
+    metadata:
+      labels:
+        app: questionservicedb
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_USER
+              value: postgres
+          image: postgres:14.5-alpine
+          name: questionservicedb
+          ports:
+            - name: http
+              containerPort: 5432
+      restartPolicy: Always

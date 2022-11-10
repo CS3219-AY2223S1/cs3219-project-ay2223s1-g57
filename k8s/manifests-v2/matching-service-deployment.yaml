@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matching-service
+  labels:
+    app: matching-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matching-service
+  template:
+    metadata:
+      labels:
+        app: matching-service
+    spec:
+      containers:
+        - env:
+            - name: ALLOWED_ORIGINS
+              value: http://localhost:3000
+            - name: DB_LOCAL_URI
+              value: mongodb://mongodb:27017/mydb
+            - name: DB_CLOUD_URI
+              value: mongodb://mongodb:27017/mydb
+          name: matching-service
+          image: matching-service
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8001
+          resources:
+            # limits:
+            #   cpu: 40m
+              # memory: 100Mi
+      restartPolicy: Always
